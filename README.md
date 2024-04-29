@@ -1,7 +1,6 @@
 # textfile
 test
 
-
 DECLARE
   -- Declare variables for cursor and fetch
   l_sql_query VARCHAR2(4000);
@@ -28,15 +27,7 @@ BEGIN
     l_sql_query := l_sql_query || l_column_names || ' FROM ' || t.table_name;
 
     -- Execute dynamic SQL query
-    FOR rec IN (EXECUTE IMMEDIATE l_sql_query) LOOP
-      -- Print table name
-      DBMS_OUTPUT.PUT_LINE('Table: ' || t.table_name);
-
-      -- Print each row
-      FOR i IN 1..rec.count LOOP
-        DBMS_OUTPUT.PUT_LINE('Column ' || i || ': ' || rec(i));
-      END LOOP;
-    END LOOP;
+    EXECUTE IMMEDIATE l_sql_query;
   END LOOP;
 END;
 /
