@@ -1,0 +1,23 @@
+DECLARE
+  -- Declare variables to store column values
+  v_col1 table_name.column_name%TYPE;
+  v_col2 table_name.column_name%TYPE;
+  -- Declare variables for cursor and fetch
+  CURSOR c_table_data IS
+    SELECT * FROM table_name; -- Replace 'table_name' with your actual table name
+BEGIN
+  -- Open cursor
+  OPEN c_table_data;
+  -- Loop through each row
+  LOOP
+    -- Fetch row data into variables
+    FETCH c_table_data INTO v_col1, v_col2; -- Add more variables for additional columns
+    -- Exit loop if no more rows to fetch
+    EXIT WHEN c_table_data%NOTFOUND;
+    -- Print column values
+    DBMS_OUTPUT.PUT_LINE('Column 1: ' || v_col1 || ', Column 2: ' || v_col2); -- Add more columns as needed
+  END LOOP;
+  -- Close cursor
+  CLOSE c_table_data;
+END;
+/
