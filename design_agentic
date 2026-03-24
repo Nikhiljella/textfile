@@ -1,0 +1,156 @@
+flowchart TB
+
+%% =======================
+%% STYLES (SVG-LIKE THEMING)
+%% =======================
+classDef ui fill:#e3f2fd,stroke:#1e88e5,color:#0d47a1,stroke-width:2px
+classDef agent fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:2px
+classDef ai fill:#f3e5f5,stroke:#6a1b9a,color:#4a148c,stroke-width:2px
+classDef tool fill:#fff3e0,stroke:#ef6c00,color:#e65100,stroke-width:2px
+classDef platform fill:#e0f2f1,stroke:#00695c,color:#004d40,stroke-width:2px
+classDef infra fill:#eeeeee,stroke:#424242,color:#212121,stroke-width:2px
+classDef external fill:#ffebee,stroke:#c62828,color:#b71c1c,stroke-width:2px
+classDef decision fill:#fffde7,stroke:#f9a825,color:#f57f17,stroke-width:3px
+
+%% =======================
+%% STAGE 1
+%% =======================
+subgraph STAGE1["🟦 STAGE 1: REQUEST"]
+UI[fa:fa-comments Chat UI]:::ui
+API[fa:fa-plug REST API]:::ui
+REQ[fa:fa-file-alt Onboarding Request Payload]:::tool
+end
+
+%% =======================
+%% STAGE 2
+%% =======================
+subgraph STAGE2["🟥 STAGE 2: AI DATA INGESTION"]
+SRC[fa:fa-globe Vendor Systems<br/>(REST/SFTP/MQ/Kafka)]:::external
+
+ING[fa:fa-download Ingestion Agent]:::agent
+PII[fa:fa-user-shield PII Detection Agent]:::agent
+SCHEMA[fa:fa-sitemap Schema + Entity Detection]:::agent
+PROFILE[fa:fa-chart-bar Data Profiler]:::agent
+end
+
+%% =======================
+%% STAGE 3
+%% =======================
+subgraph STAGE3["🟦 STAGE 3: MAPPING + HUMAN"]
+MAP[fa:fa-project-diagram Mapping Agent]:::agent
+CHAT[fa:fa-robot AI Assistant]:::agent
+HUMAN[fa:fa-user Human Approval UI]:::ui
+end
+
+%% =======================
+%% STAGE 4
+%% =======================
+subgraph STAGE4["🟩 STAGE 4: CONFIG + CODE"]
+CFG[fa:fa-cogs Config Writer Agent]:::agent
+EVAL[fa:fa-balance-scale Evaluator Agent]:::agent
+DEC{Coverage = 100%?}:::decision
+CODE[fa:fa-code Code Gen Agent]:::agent
+REVIEW[fa:fa-shield-alt Code Review Agent]:::agent
+end
+
+%% =======================
+%% STAGE 5
+%% =======================
+subgraph STAGE5["🟧 STAGE 5: DEPLOY + TEST"]
+DEPLOY[fa:fa-rocket Deploy Agent]:::agent
+TEST[fa:fa-vial Testing Agent]:::agent
+PIPE[fa:fa-cogs CI/CD Pipeline]:::tool
+end
+
+%% =======================
+%% STAGE 6
+%% =======================
+subgraph STAGE6["🟩 STAGE 6: MONITOR + FEEDBACK"]
+DRIFT[fa:fa-chart-line Drift Detection Agent]:::agent
+HEALTH[fa:fa-heartbeat Health Agent]:::agent
+ALERT[fa:fa-bell Alerting Agent]:::agent
+end
+
+%% =======================
+%% PLATFORM
+%% =======================
+subgraph PLATFORM["🟦 EXISTING PLATFORM"]
+SPRING[fa:fa-leaf Spring Boot APIs]:::platform
+DB[fa:fa-database Oracle 19c]:::platform
+BIT[fa:fa-code-branch Bitbucket]:::platform
+end
+
+%% =======================
+%% AI SERVICES (SVG-LIKE CORE)
+%% =======================
+subgraph AI["🧠 AI + RAG CORE"]
+GPT[fa:fa-brain GPT-4 Azure]:::ai
+CLAUDE[fa:fa-brain Claude Bedrock]:::ai
+RAG[fa:fa-search OpenSearch Vector DB]:::ai
+EMB[fa:fa-cubes Titan Embeddings]:::ai
+MEM[fa:fa-memory Agent Memory (S3 + Global)]:::ai
+end
+
+%% =======================
+%% INFRASTRUCTURE
+%% =======================
+subgraph INFRA["⚙️ INFRA + GOVERNANCE"]
+ECS[fa:fa-server ECS Fargate]:::infra
+SEC[fa:fa-lock Security (RBAC + Vault + A2A)]:::infra
+OBS[fa:fa-chart-line Observability Stack]:::infra
+REG[fa:fa-address-book Agent Registry]:::infra
+end
+
+%% =======================
+%% FLOW (NUMBERED)
+%% =======================
+UI -->|1| REQ
+API -->|1| REQ
+
+REQ -->|2| ING
+ING -->|3| SRC
+ING -->|4| SCHEMA
+SCHEMA -->|5| PII
+PII -->|6| PROFILE
+
+PROFILE -->|7| MAP
+MAP -->|8| HUMAN
+HUMAN -->|9| CFG
+
+CFG -->|10| EVAL
+EVAL -->|11| DEC
+
+DEC -->|YES| DEPLOY
+DEC -->|NO| CODE
+
+CODE -->|12| REVIEW
+REVIEW -->|13| DEPLOY
+
+DEPLOY -->|14| PIPE
+PIPE --> TEST
+TEST --> SPRING
+SPRING --> DB
+
+SPRING --> DRIFT
+DRIFT --> ALERT
+DRIFT -->|Feedback Loop| ING
+
+HEALTH --> ALERT
+
+%% =======================
+%% AI + TOOL INTERACTIONS (DOTTED)
+%% =======================
+MAP -.-> GPT
+CFG -.-> GPT
+CODE -.-> CLAUDE
+REVIEW -.-> CLAUDE
+CODE -.-> RAG
+RAG -.-> EMB
+CFG -.-> MEM
+
+DEPLOY -.-> BIT
+TEST -.-> DB
+ING -.-> SEC
+OBS -.-> DRIFT
+ECS -.-> ING
+REG -.-> CFG
