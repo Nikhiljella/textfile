@@ -1,156 +1,170 @@
 flowchart TB
+    classDef blue fill:#E6F1FB,stroke:#378ADD,color:#0C447C
+    classDef teal fill:#E1F5EE,stroke:#1D9E75,color:#085041
+    classDef purple fill:#EEEDFE,stroke:#7F77DD,color:#3C3489
+    classDef amber fill:#FAEEDA,stroke:#BA7517,color:#633806
+    classDef green fill:#EAF3DE,stroke:#639922,color:#27500A
+    classDef coral fill:#FAECE7,stroke:#D85A30,color:#712B13
+    classDef gray fill:#F1EFE8,stroke:#888780,color:#444441
+    classDef gold fill:#FAC775,stroke:#BA7517,color:#412402
 
-%% =======================
-%% STYLES (SVG-LIKE THEMING)
-%% =======================
-classDef ui fill:#e3f2fd,stroke:#1e88e5,color:#0d47a1,stroke-width:2px
-classDef agent fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:2px
-classDef ai fill:#f3e5f5,stroke:#6a1b9a,color:#4a148c,stroke-width:2px
-classDef tool fill:#fff3e0,stroke:#ef6c00,color:#e65100,stroke-width:2px
-classDef platform fill:#e0f2f1,stroke:#00695c,color:#004d40,stroke-width:2px
-classDef infra fill:#eeeeee,stroke:#424242,color:#212121,stroke-width:2px
-classDef external fill:#ffebee,stroke:#c62828,color:#b71c1c,stroke-width:2px
-classDef decision fill:#fffde7,stroke:#f9a825,color:#f57f17,stroke-width:3px
+    subgraph S1["① REQUEST — developer submits a vendor onboarding job"]
+        direction LR
+        ChatUI["fa:fa-comments Chat UI\nReact"]:::blue
+        RESTAPI["fa:fa-plug REST API"]:::blue
+        AuthRBAC["fa:fa-lock Auth + RBAC"]:::blue
+    end
 
-%% =======================
-%% STAGE 1
-%% =======================
-subgraph STAGE1["🟦 STAGE 1: REQUEST"]
-UI[fa:fa-comments Chat UI]:::ui
-API[fa:fa-plug REST API]:::ui
-REQ[fa:fa-file-alt Onboarding Request Payload]:::tool
-end
+    subgraph S2["② AI DATA INGESTION — agents connect, read, and profile"]
+        direction LR
+        IngAgent["fa:fa-download Ingestion Agent\nREST · SFTP · Kafka · MQ"]:::teal
+        SchemaAgent["fa:fa-sitemap Schema Agent\nInfers fields + types"]:::teal
+        PIIAgent["fa:fa-shield PII Agent\nTags SSN, email, DOB"]:::teal
+        QualityAgent["fa:fa-chart-bar Quality Profiler\nNulls, patterns, stats"]:::teal
+    end
 
-%% =======================
-%% STAGE 2
-%% =======================
-subgraph STAGE2["🟥 STAGE 2: AI DATA INGESTION"]
-SRC[fa:fa-globe Vendor Systems<br/>(REST/SFTP/MQ/Kafka)]:::external
+    subgraph S3["③ AI MAPPING + HUMAN REVIEW — approve or adjust"]
+        direction LR
+        MappingAgent["fa:fa-random Mapping Agent\nLLM suggests mappings"]:::purple
+        ConfScore["fa:fa-star Confidence Scores\n0–100% per field"]:::purple
+        HumanUI["fa:fa-user Human Review UI\nApprove, override, ask AI"]:::purple
+        ChatAssist["fa:fa-robot AI Chat Assistant\nExplain rationale"]:::purple
+    end
 
-ING[fa:fa-download Ingestion Agent]:::agent
-PII[fa:fa-user-shield PII Detection Agent]:::agent
-SCHEMA[fa:fa-sitemap Schema + Entity Detection]:::agent
-PROFILE[fa:fa-chart-bar Data Profiler]:::agent
-end
+    subgraph S4["④ CONFIG + CODE GENERATION — build the connector"]
+        direction TB
+        ConfigAgent["fa:fa-cog Config Writer Agent\nUses platform APIs + memory"]:::amber
+        EvalAgent["fa:fa-check-circle Evaluator Agent\nScores 6 dimensions"]:::amber
+        Decision{"fa:fa-code-branch Score = 100%?"}:::gold
+        CodeGenAgent["fa:fa-code Code Gen Agent\nRAG + LLM → Java code"]:::amber
+        RAGSearch["fa:fa-search RAG Codebase Search\nOpenSearch vectors"]:::amber
+        CodeReview["fa:fa-eye Code Review Agent\nSecurity · patterns · tests"]:::amber
+        HumanEsc["fa:fa-user-tie Human Escalation\nMax 3 retries"]:::gray
+    end
 
-%% =======================
-%% STAGE 3
-%% =======================
-subgraph STAGE3["🟦 STAGE 3: MAPPING + HUMAN"]
-MAP[fa:fa-project-diagram Mapping Agent]:::agent
-CHAT[fa:fa-robot AI Assistant]:::agent
-HUMAN[fa:fa-user Human Approval UI]:::ui
-end
+    subgraph S5["⑤ DEPLOY + TEST — ship and verify automatically"]
+        direction LR
+        DeployAgent["fa:fa-rocket Deploy Agent\nBitbucket → CI/CD"]:::green
+        TestAgent["fa:fa-vial Testing Agent\nEnd-to-end verify"]:::green
+        HealthAgent["fa:fa-heartbeat Health Check Agent\nAuto-rollback ready"]:::green
+        Platform["fa:fa-server Spring Boot + Oracle\nCloud Foundry"]:::green
+    end
 
-%% =======================
-%% STAGE 4
-%% =======================
-subgraph STAGE4["🟩 STAGE 4: CONFIG + CODE"]
-CFG[fa:fa-cogs Config Writer Agent]:::agent
-EVAL[fa:fa-balance-scale Evaluator Agent]:::agent
-DEC{Coverage = 100%?}:::decision
-CODE[fa:fa-code Code Gen Agent]:::agent
-REVIEW[fa:fa-shield-alt Code Review Agent]:::agent
-end
+    subgraph S6["⑥ MONITOR + FEEDBACK — detect drift, close the loop"]
+        direction LR
+        DriftAgent["fa:fa-exclamation-triangle Drift Detection Agent\nSchema + volume drift"]:::coral
+        AlertAgent["fa:fa-bell Alerting Agent\nCritical · High · Med · Low"]:::coral
+        ThreeLayer["fa:fa-layer-group 3-Layer Detection\nRules → Stats → AI"]:::coral
+        Observ["fa:fa-chart-line Observability\nGrafana + Prometheus"]:::coral
+    end
 
-%% =======================
-%% STAGE 5
-%% =======================
-subgraph STAGE5["🟧 STAGE 5: DEPLOY + TEST"]
-DEPLOY[fa:fa-rocket Deploy Agent]:::agent
-TEST[fa:fa-vial Testing Agent]:::agent
-PIPE[fa:fa-cogs CI/CD Pipeline]:::tool
-end
+    subgraph INFRA["SHARED INFRASTRUCTURE"]
+        direction LR
+        LLMs["fa:fa-brain LLM Providers\nGPT-4 · Claude"]:::gray
+        RAG["fa:fa-database RAG Pipeline\nOpenSearch + Titan"]:::gray
+        Memory["fa:fa-memory Agent Memory\nSession · S3 · Global"]:::gray
+        Security["fa:fa-key Security\nVault · RBAC · A2A"]:::gray
+        Fargate["fa:fa-cloud ECS Fargate\nContainers"]:::gray
+        Registry["fa:fa-list Agent Registry\nGovernance"]:::gray
+    end
 
-%% =======================
-%% STAGE 6
-%% =======================
-subgraph STAGE6["🟩 STAGE 6: MONITOR + FEEDBACK"]
-DRIFT[fa:fa-chart-line Drift Detection Agent]:::agent
-HEALTH[fa:fa-heartbeat Health Agent]:::agent
-ALERT[fa:fa-bell Alerting Agent]:::agent
-end
+    S1 --> S2
+    S2 --> S3
+    S3 --> S4
+    ConfigAgent --> EvalAgent
+    EvalAgent --> Decision
+    Decision -->|"Yes — config sufficient"| S5
+    Decision -->|"No — gaps found"| CodeGenAgent
+    CodeGenAgent --> RAGSearch
+    RAGSearch --> CodeReview
+    CodeReview -->|"Pass"| S5
+    CodeReview -->|"Fail × 3"| HumanEsc
+    S4 --> S5
+    S5 --> S6
+    S6 -->|"fa:fa-sync Drift → re-ingest"| S2
 
-%% =======================
-%% PLATFORM
-%% =======================
-subgraph PLATFORM["🟦 EXISTING PLATFORM"]
-SPRING[fa:fa-leaf Spring Boot APIs]:::platform
-DB[fa:fa-database Oracle 19c]:::platform
-BIT[fa:fa-code-branch Bitbucket]:::platform
-end
 
-%% =======================
-%% AI SERVICES (SVG-LIKE CORE)
-%% =======================
-subgraph AI["🧠 AI + RAG CORE"]
-GPT[fa:fa-brain GPT-4 Azure]:::ai
-CLAUDE[fa:fa-brain Claude Bedrock]:::ai
-RAG[fa:fa-search OpenSearch Vector DB]:::ai
-EMB[fa:fa-cubes Titan Embeddings]:::ai
-MEM[fa:fa-memory Agent Memory (S3 + Global)]:::ai
-end
 
-%% =======================
-%% INFRASTRUCTURE
-%% =======================
-subgraph INFRA["⚙️ INFRA + GOVERNANCE"]
-ECS[fa:fa-server ECS Fargate]:::infra
-SEC[fa:fa-lock Security (RBAC + Vault + A2A)]:::infra
-OBS[fa:fa-chart-line Observability Stack]:::infra
-REG[fa:fa-address-book Agent Registry]:::infra
-end
 
-%% =======================
-%% FLOW (NUMBERED)
-%% =======================
-UI -->|1| REQ
-API -->|1| REQ
+flowchart LR
+    classDef purple fill:#EEEDFE,stroke:#7F77DD,color:#3C3489
+    classDef teal fill:#E1F5EE,stroke:#1D9E75,color:#085041
+    classDef blue fill:#E6F1FB,stroke:#378ADD,color:#0C447C
+    classDef amber fill:#FAEEDA,stroke:#BA7517,color:#633806
+    classDef green fill:#EAF3DE,stroke:#639922,color:#27500A
+    classDef gray fill:#F1EFE8,stroke:#888780,color:#444441
 
-REQ -->|2| ING
-ING -->|3| SRC
-ING -->|4| SCHEMA
-SCHEMA -->|5| PII
-PII -->|6| PROFILE
+    subgraph LLM["fa:fa-brain AI / LLM Providers"]
+        GPT4["fa:fa-microchip GPT-4\nAzure OpenAI\nConfig + mapping"]:::purple
+        Claude["fa:fa-robot Claude\nAWS Bedrock\nCode generation"]:::purple
+        Titan["fa:fa-vector-square Titan Embeddings\nAWS Bedrock\nRAG indexing"]:::purple
+    end
 
-PROFILE -->|7| MAP
-MAP -->|8| HUMAN
-HUMAN -->|9| CFG
+    subgraph AGENTS["fa:fa-sitemap Agent Runtime"]
+        SDK["fa:fa-code Python SDK\nLangGraph-style\ninternal framework"]:::teal
+        Fargate["fa:fa-cloud ECS Fargate\nAWS containers\nauto-scaling"]:::teal
+        A2A["fa:fa-exchange-alt A2A Protocol\nToken auth\nagent-to-agent"]:::teal
+    end
 
-CFG -->|10| EVAL
-EVAL -->|11| DEC
+    subgraph RAG["fa:fa-database Knowledge / RAG"]
+        OpenSearch["fa:fa-search OpenSearch\nVector store\nsemantic search"]:::blue
+        RAGSDK["fa:fa-puzzle-piece RAG SDK\nInternal library\nembedding + retrieval"]:::blue
+        S3["fa:fa-archive S3\nLong-term memory\npersisted state"]:::blue
+    end
 
-DEC -->|YES| DEPLOY
-DEC -->|NO| CODE
+    subgraph PLATFORM["fa:fa-server Existing Platform"]
+        SpringBoot["fa:fa-leaf Spring Boot\nJava 17\nconnector engine"]:::amber
+        Oracle["fa:fa-database Oracle 19c\nConfigs + JSON\naggregated data"]:::amber
+        PCF["fa:fa-cloud-upload Pivotal Cloud Foundry\nPrivate cloud\nruntime"]:::amber
+    end
 
-CODE -->|12| REVIEW
-REVIEW -->|13| DEPLOY
+    subgraph CICD["fa:fa-code-branch CI/CD + Data Sources"]
+        Bitbucket["fa:fa-git Bitbucket\nSource control\nauto-deploy pipelines"]:::green
+        Sources["fa:fa-plug Data Sources\nREST · SFTP · Kafka\nMQ · Web scraping"]:::green
+    end
 
-DEPLOY -->|14| PIPE
-PIPE --> TEST
-TEST --> SPRING
-SPRING --> DB
+    subgraph OBS["fa:fa-chart-line Observability + Security"]
+        Otel["fa:fa-broadcast-tower OpenTelemetry\nDistributed tracing\nall agents"]:::gray
+        Grafana["fa:fa-chart-bar Grafana + Prometheus\nDashboards\nmetrics"]:::gray
+        Vault["fa:fa-lock Secrets Vault\nRBAC + auth\ncredential store"]:::gray
+    end
 
-SPRING --> DRIFT
-DRIFT --> ALERT
-DRIFT -->|Feedback Loop| ING
+    LLM -->|"LLM calls"| AGENTS
+    RAG -->|"context retrieval"| AGENTS
+    AGENTS -->|"generates + deploys"| PLATFORM
+    PLATFORM -->|"pulls from"| CICD
+    AGENTS -->|"traced by"| OBS
+    PLATFORM -->|"monitored by"| OBS
 
-HEALTH --> ALERT
 
-%% =======================
-%% AI + TOOL INTERACTIONS (DOTTED)
-%% =======================
-MAP -.-> GPT
-CFG -.-> GPT
-CODE -.-> CLAUDE
-REVIEW -.-> CLAUDE
-CODE -.-> RAG
-RAG -.-> EMB
-CFG -.-> MEM
 
-DEPLOY -.-> BIT
-TEST -.-> DB
-ING -.-> SEC
-OBS -.-> DRIFT
-ECS -.-> ING
-REG -.-> CFG
+flowchart LR
+    classDef before fill:#FAECE7,stroke:#D85A30,color:#712B13
+    classDef after fill:#E1F5EE,stroke:#1D9E75,color:#085041
+    classDef bad fill:#FCEBEB,stroke:#A32D2D,color:#501313
+    classDef good fill:#EAF3DE,stroke:#3B6D11,color:#173404
+    classDef divider fill:#F1EFE8,stroke:#888780,color:#444441
+
+    subgraph BEFORE["fa:fa-times-circle  BEFORE — Manual Process"]
+        direction TB
+        B1["fa:fa-envelope Step 1\nVendor sends docs\nDev reads PDFs + emails\n⏱ 1–3 days"]:::before
+        B2["fa:fa-keyboard Step 2\nDev writes connector\nJava code from scratch\n⏱ 3–5 days"]:::before
+        B3["fa:fa-table Step 3\nManual field mapping\nSpreadsheets + tribal knowledge\n⏱ 2–5 days"]:::before
+        B4["fa:fa-bug Step 4\nConfig + manual QA\nHand-written, error-prone\n⏱ 3–5 days"]:::before
+        B5["fa:fa-wrench Step 5\nManual deploy + monitoring\nPipeline setup by hand\n⏱ 1–3 days"]:::before
+        BRESULT["fa:fa-clock Total: 2–4 weeks\nMultiple engineers · Error-prone\nInconsistent · No drift detection"]:::bad
+        B1 --> B2 --> B3 --> B4 --> B5 --> BRESULT
+    end
+
+    subgraph AFTER["fa:fa-check-circle  AFTER — AI Agentic Platform"]
+        direction TB
+        A1["fa:fa-comments Step 1\nDev submits request\nChat UI or REST API\n⚡ Under 2 minutes"]:::after
+        A2["fa:fa-robot Step 2\nIngestion + schema agents\nAuto-connect + infer schema\n⚡ Seconds"]:::after
+        A3["fa:fa-random Step 3\nMapping agent suggests\nLLM + confidence scores\n⚡ Seconds + human review"]:::after
+        A4["fa:fa-cog Step 4\nConfig written + code generated\nEvaluator + review agents\n⚡ Minutes"]:::after
+        A5["fa:fa-rocket Step 5\nDeploy + test agents run\nCI/CD + auto-verification\n⚡ Minutes"]:::after
+        ARESULT["fa:fa-bolt Total: Minutes\nOne developer · Consistent\nAuditable · Continuous monitoring"]:::good
+        A1 --> A2 --> A3 --> A4 --> A5 --> ARESULT
+    end
+
+    BEFORE -->|"replaced by"| AFTER
