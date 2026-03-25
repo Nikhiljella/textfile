@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="980" viewBox="0 0 1400 980"
+     style="background:#0f1923; font-family: Segoe UI, Arial, sans-serif;">
+<defs>
+  <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M1 2L9 5L1 8" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-linejoin="round"/>
+  </marker>
+  <marker id="arr-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M1 2L9 5L1 8" fill="none" stroke="#60a5fa" stroke-width="1.5" stroke-linejoin="round"/>
+  </marker>
+  <marker id="arr-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M1 2L9 5L1 8" fill="none" stroke="#34d399" stroke-width="1.5" stroke-linejoin="round"/>
+  </marker>
+  <marker id="arr-orange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M1 2L9 5L1 8" fill="none" stroke="#fb923c" stroke-width="1.5" stroke-linejoin="round"/>
+  </marker>
+  <marker id="arr-azure" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M1 2L9 5L1 8" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-linejoin="round"/>
+  </marker>
+  <marker id="arr-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M1 2L9 5L1 8" fill="none" stroke="#f87171" stroke-width="1.5" stroke-linejoin="round"/>
+  </marker>
+</defs>
+
+<!-- ═══ TITLE BAR ═══ -->
+<rect x="0" y="0" width="1400" height="44" fill="#0d1520"/>
+<text x="20" y="16" font-size="10" fill="#38bdf8" letter-spacing="3" font-weight="600">CDX PLATFORM · CLOUD TOPOLOGY DIAGRAM</text>
+<text x="20" y="32" font-size="15" fill="#f0f9ff" font-weight="700" letter-spacing="0.5">AWS + PCF Cloud Architecture — Network &amp; Service Topology</text>
+<text x="1380" y="24" font-size="9" fill="#475569" text-anchor="end">13 Agents · 6 Stages · Spring Boot · Oracle 19c · ECS Fargate</text>
+
+<!-- ═══════════════════════════════════════════════
+     AWS CLOUD BOUNDARY (left + center)
+═══════════════════════════════════════════════ -->
+<rect x="14" y="55" width="890" height="900" rx="16"
+      fill="rgba(255,153,0,0.03)" stroke="#FF9900" stroke-width="2" stroke-dasharray="10,5" opacity="0.85"/>
+<!-- AWS label + logo badge -->
+<rect x="14" y="55" width="130" height="28" rx="8" fill="#FF9900"/>
+<text x="79" y="74" text-anchor="middle" font-size="12" fill="#0d1520" font-weight="800">AWS Cloud</text>
+
+<!-- ── ECS FARGATE VPC CONTAINER ── -->
+<rect x="28" y="92" width="550" height="430" rx="12"
+      fill="rgba(99,102,241,0.05)" stroke="rgba(99,102,241,0.35)" stroke-width="1.2" stroke-dasharray="6,3"/>
+<rect x="28" y="92" width="220" height="22" rx="6" fill="rgba(99,102,241,0.2)"/>
+<text x="133" y="107" text-anchor="middle" font-size="10" fill="#a5b4fc" font-weight="700" letter-spacing="0.5">ECS FARGATE — AGENT RUNTIME VPC</text>
+
+<!-- STAGE 2 PODS panel -->
+<rect x="40" y="120" width="236" height="390" rx="10" fill="rgba(99,102,241,0.06)" stroke="rgba(99,102,241,0.2)" stroke-width="0.8"/>
+<text x="158" y="140" text-anchor="middle" font-size="10" fill="#a5b4fc" font-weight="700">Stage 2 — Ingestion Pods</text>
+
+<rect x="54" y="150" width="208" height="36" rx="6" fill="rgba(52,211,153,0.12)" stroke="rgba(52,211,153,0.3)" stroke-width="0.8"/>
+<text x="158" y="165" text-anchor="middle" font-size="10" fill="#6ee7b7" font-weight="600">Ingestion Agent · pod-1</text>
+<text x="158" y="179" text-anchor="middle" font-size="8.5" fill="rgba(110,231,183,0.6)">REST · SFTP · Kafka · MQ · Web scraping</text>
+
+<rect x="54" y="194" width="208" height="36" rx="6" fill="rgba(52,211,153,0.12)" stroke="rgba(52,211,153,0.3)" stroke-width="0.8"/>
+<text x="158" y="209" text-anchor="middle" font-size="10" fill="#6ee7b7" font-weight="600">Schema Inference Agent · pod-2</text>
+<text x="158" y="223" text-anchor="middle" font-size="8.5" fill="rgba(110,231,183,0.6)">Field types · patterns · entity detection</text>
+
+<rect x="54" y="238" width="208" height="36" rx="6" fill="rgba(239,68,68,0.12)" stroke="rgba(239,68,68,0.3)" stroke-width="0.8"/>
+<text x="158" y="253" text-anchor="middle" font-size="10" fill="#fca5a5" font-weight="600">PII Detection Agent · pod-3</text>
+<text x="158" y="267" text-anchor="middle" font-size="8.5" fill="rgba(252,165,165,0.6)">SSN · DOB · Email · Phone → encrypt</text>
+
+<rect x="54" y="282" width="208" height="36" rx="6" fill="rgba(52,211,153,0.12)" stroke="rgba(52,211,153,0.3)" stroke-width="0.8"/>
+<text x="158" y="297" text-anchor="middle" font-size="10" fill="#6ee7b7" font-weight="600">Quality Profiler · pod-4</text>
+<text x="158" y="311" text-anchor="middle" font-size="8.5" fill="rgba(110,231,183,0.6)">Null rates · cardinality · baselines</text>
+
+<rect x="54" y="326" width="208" height="36" rx="6" fill="rgba(245,158,11,0.12)" stroke="rgba(245,158,11,0.3)" stroke-width="0.8"/>
+<text x="158" y="341" text-anchor="middle" font-size="10" fill="#fcd34d" font-weight="600">Priority Conflict Agent · pod-5</text>
+<text x="158" y="355" text-anchor="middle" font-size="8.5" fill="rgba(252,211,77,0.6)">Multi-vendor rank resolution</text>
+
+<rect x="54" y="370" width="208" height="36" rx="6" fill="rgba(167,139,250,0.12)" stroke="rgba(167,139,250,0.3)" stroke-width="0.8"/>
+<text x="158" y="385" text-anchor="middle" font-size="10" fill="#c4b5fd" font-weight="600">Mapping Agent · pod-6</text>
+<text x="158" y="399" text-anchor="middle" font-size="8.5" fill="rgba(196,181,253,0.6)">LLM suggest · confidence 0–100%</text>
+
+<rect x="54" y="414" width="208" height="36" rx="6" fill="rgba(167,139,250,0.12)" stroke="rgba(167,139,250,0.3)" stroke-width="0.8"/>
+<text x="158" y="429" text-anchor="middle" font-size="10" fill="#c4b5fd" font-weight="600">AI Chat Assistant · pod-7</text>
+<text x="158" y="443" text-anchor="middle" font-size="8.5" fill="rgba(196,181,253,0.6)">Claude Bedrock · explain rationale</text>
+
+<!-- STAGE 4–5 PODS panel -->
+<rect x="288" y="120" width="278" height="390" rx="10" fill="rgba(99,102,241,0.06)" stroke="rgba(99,102,241,0.2)" stroke-width="0.8"/>
+<text x="427" y="140" text-anchor="middle" font-size="10" fill="#a5b4fc" font-weight="700">Stages 4–6 — Build, Deploy &amp; Monitor Pods</text>
+
+<rect x="302" y="150" width="250" height="36" rx="6" fill="rgba(245,158,11,0.12)" stroke="rgba(245,158,11,0.3)" stroke-width="0.8"/>
+<text x="427" y="165" text-anchor="middle" font-size="10" fill="#fcd34d" font-weight="600">Config Writer Agent · pod-8</text>
+<text x="427" y="179" text-anchor="middle" font-size="8.5" fill="rgba(252,211,77,0.6)">Platform APIs · Global Memory · GPT-4</text>
+
+<rect x="302" y="194" width="250" height="36" rx="6" fill="rgba(245,158,11,0.12)" stroke="rgba(245,158,11,0.3)" stroke-width="0.8"/>
+<text x="427" y="209" text-anchor="middle" font-size="10" fill="#fcd34d" font-weight="600">Evaluator Agent · pod-9</text>
+<text x="427" y="223" text-anchor="middle" font-size="8.5" fill="rgba(252,211,77,0.6)">6-dim score · 100%=skip codegen</text>
+
+<rect x="302" y="238" width="250" height="36" rx="6" fill="rgba(245,158,11,0.12)" stroke="rgba(245,158,11,0.3)" stroke-width="0.8"/>
+<text x="427" y="253" text-anchor="middle" font-size="10" fill="#fcd34d" font-weight="600">Code Gen Agent · pod-10</text>
+<text x="427" y="267" text-anchor="middle" font-size="8.5" fill="rgba(252,211,77,0.6)">RAG + Claude → Java / Spring Boot</text>
+
+<rect x="302" y="282" width="250" height="36" rx="6" fill="rgba(245,158,11,0.12)" stroke="rgba(245,158,11,0.3)" stroke-width="0.8"/>
+<text x="427" y="297" text-anchor="middle" font-size="10" fill="#fcd34d" font-weight="600">Code Review Agent · pod-11</text>
+<text x="427" y="311" text-anchor="middle" font-size="8.5" fill="rgba(252,211,77,0.6)">Security · patterns · tests · max 3 retries</text>
+
+<rect x="302" y="326" width="250" height="36" rx="6" fill="rgba(52,211,153,0.12)" stroke="rgba(52,211,153,0.3)" stroke-width="0.8"/>
+<text x="427" y="341" text-anchor="middle" font-size="10" fill="#6ee7b7" font-weight="600">Deploy Agent · pod-12</text>
+<text x="427" y="355" text-anchor="middle" font-size="8.5" fill="rgba(110,231,183,0.6)">Bitbucket branch → CI/CD → PCF</text>
+
+<rect x="302" y="370" width="250" height="36" rx="6" fill="rgba(52,211,153,0.12)" stroke="rgba(52,211,153,0.3)" stroke-width="0.8"/>
+<text x="427" y="385" text-anchor="middle" font-size="10" fill="#6ee7b7" font-weight="600">Testing Agent · pod-13</text>
+<text x="427" y="399" text-anchor="middle" font-size="8.5" fill="rgba(110,231,183,0.6)">E2E verify · GET /party/{epiId}</text>
+
+<rect x="302" y="414" width="250" height="36" rx="6" fill="rgba(239,68,68,0.12)" stroke="rgba(239,68,68,0.3)" stroke-width="0.8"/>
+<text x="427" y="429" text-anchor="middle" font-size="10" fill="#fca5a5" font-weight="600">AI Drift Agent · pod-14</text>
+<text x="427" y="443" text-anchor="middle" font-size="8.5" fill="rgba(252,165,165,0.6)">Claude · root cause · ~750 token context</text>
+
+<!-- ── AWS MANAGED SERVICES ── -->
+<rect x="28" y="535" width="550" height="260" rx="12"
+      fill="rgba(255,153,0,0.04)" stroke="rgba(255,153,0,0.25)" stroke-width="1.2" stroke-dasharray="6,3"/>
+<rect x="28" y="535" width="200" height="22" rx="6" fill="rgba(255,153,0,0.2)"/>
+<text x="128" y="550" text-anchor="middle" font-size="10" fill="#fb923c" font-weight="700" letter-spacing="0.5">AWS MANAGED SERVICES</text>
+
+<!-- Bedrock -->
+<rect x="42" y="563" width="156" height="74" rx="8" fill="rgba(99,102,241,0.1)" stroke="rgba(99,102,241,0.35)" stroke-width="1"/>
+<rect x="42" y="563" width="156" height="22" rx="8" fill="rgba(99,102,241,0.25)"/>
+<text x="120" y="578" text-anchor="middle" font-size="10" fill="#a5b4fc" font-weight="700">AWS Bedrock</text>
+<text x="120" y="597" text-anchor="middle" font-size="9" fill="rgba(165,180,252,0.8)">Claude Sonnet 4</text>
+<text x="120" y="611" text-anchor="middle" font-size="8.5" fill="rgba(165,180,252,0.55)">Code gen · drift · chat</text>
+<text x="120" y="625" text-anchor="middle" font-size="8" fill="rgba(99,102,241,0.5)">us-east-1 · VPC endpoint</text>
+
+<!-- OpenSearch -->
+<rect x="208" y="563" width="156" height="74" rx="8" fill="rgba(245,158,11,0.1)" stroke="rgba(245,158,11,0.35)" stroke-width="1"/>
+<rect x="208" y="563" width="156" height="22" rx="8" fill="rgba(245,158,11,0.25)"/>
+<text x="286" y="578" text-anchor="middle" font-size="10" fill="#fcd34d" font-weight="700">Amazon OpenSearch</text>
+<text x="286" y="597" text-anchor="middle" font-size="9" fill="rgba(252,211,77,0.8)">Serverless · Vectors</text>
+<text x="286" y="611" text-anchor="middle" font-size="8.5" fill="rgba(252,211,77,0.55)">RAG codebase patterns</text>
+<text x="286" y="625" text-anchor="middle" font-size="8" fill="rgba(245,158,11,0.5)">Run metrics · L2 stats</text>
+
+<!-- S3 -->
+<rect x="374" y="563" width="156" height="74" rx="8" fill="rgba(52,211,153,0.1)" stroke="rgba(52,211,153,0.35)" stroke-width="1"/>
+<rect x="374" y="563" width="156" height="22" rx="8" fill="rgba(52,211,153,0.25)"/>
+<text x="452" y="578" text-anchor="middle" font-size="10" fill="#6ee7b7" font-weight="700">Amazon S3</text>
+<text x="452" y="597" text-anchor="middle" font-size="9" fill="rgba(110,231,183,0.8)">Agent memory store</text>
+<text x="452" y="611" text-anchor="middle" font-size="8.5" fill="rgba(110,231,183,0.55)">Session · LT · Global rules</text>
+<text x="452" y="625" text-anchor="middle" font-size="8" fill="rgba(52,211,153,0.5)">Schema baselines · drift forensics</text>
+
+<!-- SQS -->
+<rect x="42" y="647" width="156" height="74" rx="8" fill="rgba(239,68,68,0.1)" stroke="rgba(239,68,68,0.35)" stroke-width="1"/>
+<rect x="42" y="647" width="156" height="22" rx="8" fill="rgba(239,68,68,0.25)"/>
+<text x="120" y="662" text-anchor="middle" font-size="10" fill="#fca5a5" font-weight="700">Amazon SQS</text>
+<text x="120" y="681" text-anchor="middle" font-size="9" fill="rgba(252,165,165,0.8)">Drift event queue</text>
+<text x="120" y="695" text-anchor="middle" font-size="8.5" fill="rgba(252,165,165,0.55)">L2 → L3 anomaly events</text>
+<text x="120" y="709" text-anchor="middle" font-size="8" fill="rgba(239,68,68,0.5)">VPC endpoint</text>
+
+<!-- Titan -->
+<rect x="208" y="647" width="156" height="74" rx="8" fill="rgba(52,211,153,0.1)" stroke="rgba(52,211,153,0.35)" stroke-width="1"/>
+<rect x="208" y="647" width="156" height="22" rx="8" fill="rgba(52,211,153,0.25)"/>
+<text x="286" y="662" text-anchor="middle" font-size="10" fill="#6ee7b7" font-weight="700">Titan Embeddings</text>
+<text x="286" y="681" text-anchor="middle" font-size="9" fill="rgba(110,231,183,0.8)">RAG indexing</text>
+<text x="286" y="695" text-anchor="middle" font-size="8.5" fill="rgba(110,231,183,0.55)">Codebase vector creation</text>
+<text x="286" y="709" text-anchor="middle" font-size="8" fill="rgba(52,211,153,0.5)">Feeds → OpenSearch</text>
+
+<!-- CloudWatch -->
+<rect x="374" y="647" width="156" height="74" rx="8" fill="rgba(156,163,175,0.1)" stroke="rgba(156,163,175,0.35)" stroke-width="1"/>
+<rect x="374" y="647" width="156" height="22" rx="8" fill="rgba(156,163,175,0.25)"/>
+<text x="452" y="662" text-anchor="middle" font-size="10" fill="#d1d5db" font-weight="700">Amazon CloudWatch</text>
+<text x="452" y="681" text-anchor="middle" font-size="9" fill="rgba(209,213,219,0.8)">Metrics · Logs · Traces</text>
+<text x="452" y="695" text-anchor="middle" font-size="8.5" fill="rgba(209,213,219,0.55)">Agent OTel spans</text>
+<text x="452" y="709" text-anchor="middle" font-size="8" fill="rgba(156,163,175,0.5)">Alarms · dashboards</text>
+
+<!-- Vault strip -->
+<rect x="28" y="733" width="550" height="52" rx="8"
+      fill="rgba(245,158,11,0.08)" stroke="rgba(245,158,11,0.3)" stroke-width="1"/>
+<text x="303" y="754" text-anchor="middle" font-size="10" fill="#fcd34d" font-weight="700">HashiCorp Vault + AWS Secrets Manager</text>
+<text x="303" y="772" text-anchor="middle" font-size="8.5" fill="rgba(252,211,77,0.6)">API Keys · RBAC · mTLS certs · Credential rotation · A2A token auth</text>
+
+<!-- ── AZURE CLOUD ── -->
+<rect x="600" y="92" width="290" height="200" rx="12"
+      fill="rgba(14,165,233,0.04)" stroke="#0ea5e9" stroke-width="1.8" stroke-dasharray="10,5"/>
+<rect x="600" y="92" width="130" height="26" rx="8" fill="#0078D4"/>
+<text x="665" y="110" text-anchor="middle" font-size="11" fill="#ffffff" font-weight="700">Microsoft Azure</text>
+
+<rect x="614" y="126" width="262" height="148" rx="10" fill="rgba(14,165,233,0.08)" stroke="rgba(14,165,233,0.3)" stroke-width="1"/>
+<text x="745" y="148" text-anchor="middle" font-size="11" fill="#7dd3fc" font-weight="700">Azure OpenAI Service</text>
+<text x="745" y="166" text-anchor="middle" font-size="10" fill="rgba(125,211,252,0.85)">GPT-4 Turbo</text>
+<text x="745" y="184" text-anchor="middle" font-size="9" fill="rgba(125,211,252,0.6)">Config generation · Field mapping</text>
+<text x="745" y="200" text-anchor="middle" font-size="9" fill="rgba(125,211,252,0.6)">Region: East US 2</text>
+<text x="745" y="217" text-anchor="middle" font-size="8.5" fill="rgba(14,165,233,0.5)">Private endpoint · TLS 1.3</text>
+<text x="745" y="233" text-anchor="middle" font-size="8" fill="rgba(14,165,233,0.4)">Receives field names+types only · no raw values</text>
+<text x="745" y="249" text-anchor="middle" font-size="8" fill="rgba(14,165,233,0.35)">Stage 3 Mapping + Stage 4 Config</text>
+
+<!-- ═══════════════════════════════════════════════
+     PRIVATE CLOUD — PCF / GAP (right column)
+═══════════════════════════════════════════════ -->
+<rect x="924" y="55" width="462" height="900" rx="16"
+      fill="rgba(30,58,95,0.15)" stroke="rgba(96,165,250,0.3)" stroke-width="2" stroke-dasharray="10,5"/>
+<rect x="924" y="55" width="200" height="28" rx="8" fill="rgba(30,58,95,0.8)" stroke="rgba(96,165,250,0.4)" stroke-width="1"/>
+<text x="1024" y="73" text-anchor="middle" font-size="11" fill="#93c5fd" font-weight="800">Private Cloud (PCF / GAP)</text>
+
+<!-- SPRING BOOT PLATFORM -->
+<rect x="938" y="92" width="434" height="260" rx="12" fill="rgba(52,211,153,0.05)" stroke="rgba(52,211,153,0.25)" stroke-width="1"/>
+<text x="1155" y="114" text-anchor="middle" font-size="11" fill="rgba(110,231,183,0.8)" font-weight="700">Spring Boot Platform — Java 17</text>
+
+<rect x="952" y="125" width="196" height="66" rx="8" fill="rgba(96,165,250,0.1)" stroke="rgba(96,165,250,0.3)" stroke-width="0.8"/>
+<text x="1050" y="143" text-anchor="middle" font-size="10" fill="#93c5fd" font-weight="700">CDX REST API</text>
+<text x="1050" y="158" text-anchor="middle" font-size="9" fill="rgba(147,197,253,0.7)">GET /party/{epiId}</text>
+<text x="1050" y="172" text-anchor="middle" font-size="8.5" fill="rgba(147,197,253,0.5)">Party JSON aggregator</text>
+<text x="1050" y="184" text-anchor="middle" font-size="8" fill="rgba(96,165,250,0.4)">Spring Boot · HTTPS 8443</text>
+
+<rect x="1162" y="125" width="196" height="66" rx="8" fill="rgba(52,211,153,0.1)" stroke="rgba(52,211,153,0.3)" stroke-width="0.8"/>
+<text x="1260" y="143" text-anchor="middle" font-size="10" fill="#6ee7b7" font-weight="700">Connector Engine</text>
+<text x="1260" y="158" text-anchor="middle" font-size="9" fill="rgba(110,231,183,0.7)">20+ AI-generated connectors</text>
+<text x="1260" y="172" text-anchor="middle" font-size="8.5" fill="rgba(110,231,183,0.5)">Scheduled + on-demand runs</text>
+<text x="1260" y="184" text-anchor="middle" font-size="8" fill="rgba(52,211,153,0.4)">Layer 1 Java rules inline</text>
+
+<!-- Oracle 19c -->
+<rect x="952" y="204" width="406" height="128" rx="8" fill="rgba(239,68,68,0.07)" stroke="rgba(239,68,68,0.3)" stroke-width="1"/>
+<rect x="952" y="204" width="406" height="26" rx="8" fill="rgba(239,68,68,0.2)"/>
+<text x="1155" y="221" text-anchor="middle" font-size="11" fill="#fca5a5" font-weight="700">Oracle 19c Database — RAC Cluster</text>
+<text x="1020" y="247" text-anchor="middle" font-size="9" fill="rgba(252,165,165,0.75)">CONNECTOR_CONFIGS</text>
+<text x="1020" y="262" text-anchor="middle" font-size="9" fill="rgba(252,165,165,0.75)">MAPPING_CONTRACTS</text>
+<text x="1020" y="277" text-anchor="middle" font-size="9" fill="rgba(252,165,165,0.75)">VENDOR_PRIORITY_RULES</text>
+<text x="1290" y="247" text-anchor="middle" font-size="9" fill="rgba(252,165,165,0.75)">PARTY_DATA (EPI)</text>
+<text x="1290" y="262" text-anchor="middle" font-size="9" fill="rgba(252,165,165,0.75)">AI_LICENCE_REQUESTS</text>
+<text x="1290" y="277" text-anchor="middle" font-size="9" fill="rgba(252,165,165,0.75)">CONNECTOR_RULES (Layer 1)</text>
+<text x="1155" y="304" text-anchor="middle" font-size="8" fill="rgba(239,68,68,0.5)">Private cloud · Encrypted tablespace · TLS 1521 · JDBC</text>
+
+<!-- BITBUCKET CI/CD -->
+<rect x="938" y="366" width="434" height="104" rx="12" fill="rgba(14,165,233,0.05)" stroke="rgba(14,165,233,0.25)" stroke-width="1"/>
+<text x="1155" y="386" text-anchor="middle" font-size="11" fill="rgba(125,211,252,0.8)" font-weight="700">Bitbucket + CI/CD Pipeline</text>
+
+<rect x="952" y="396" width="196" height="58" rx="8" fill="rgba(14,165,233,0.1)" stroke="rgba(14,165,233,0.3)" stroke-width="0.8"/>
+<text x="1050" y="414" text-anchor="middle" font-size="10" fill="#7dd3fc" font-weight="600">Bitbucket Repos</text>
+<text x="1050" y="429" text-anchor="middle" font-size="8.5" fill="rgba(125,211,252,0.6)">AI-generated code PRs</text>
+<text x="1050" y="443" text-anchor="middle" font-size="8" fill="rgba(14,165,233,0.45)">Branch → merge → auto-build</text>
+
+<rect x="1162" y="396" width="196" height="58" rx="8" fill="rgba(14,165,233,0.1)" stroke="rgba(14,165,233,0.3)" stroke-width="0.8"/>
+<text x="1260" y="414" text-anchor="middle" font-size="10" fill="#7dd3fc" font-weight="600">CI/CD Pipeline</text>
+<text x="1260" y="429" text-anchor="middle" font-size="8.5" fill="rgba(125,211,252,0.6)">Build → test → deploy PCF</text>
+<text x="1260" y="443" text-anchor="middle" font-size="8" fill="rgba(14,165,233,0.45)">Rollback on health check fail</text>
+
+<!-- OBSERVABILITY STACK -->
+<rect x="938" y="484" width="434" height="140" rx="12" fill="rgba(156,163,175,0.05)" stroke="rgba(156,163,175,0.2)" stroke-width="1"/>
+<text x="1155" y="504" text-anchor="middle" font-size="11" fill="rgba(209,213,219,0.8)" font-weight="700">Observability Stack</text>
+
+<rect x="952" y="516" width="128" height="94" rx="8" fill="rgba(156,163,175,0.08)" stroke="rgba(156,163,175,0.25)" stroke-width="0.8"/>
+<text x="1016" y="534" text-anchor="middle" font-size="10" fill="#d1d5db" font-weight="700">Prometheus</text>
+<text x="1016" y="549" text-anchor="middle" font-size="8.5" fill="rgba(209,213,219,0.6)">Agent metrics</text>
+<text x="1016" y="563" text-anchor="middle" font-size="8.5" fill="rgba(209,213,219,0.6)">Connector metrics</text>
+<text x="1016" y="577" text-anchor="middle" font-size="8" fill="rgba(156,163,175,0.4)">Port 9090</text>
+<text x="1016" y="591" text-anchor="middle" font-size="8" fill="rgba(156,163,175,0.4)">L1 rule triggers</text>
+
+<rect x="1090" y="516" width="128" height="94" rx="8" fill="rgba(156,163,175,0.08)" stroke="rgba(156,163,175,0.25)" stroke-width="0.8"/>
+<text x="1154" y="534" text-anchor="middle" font-size="10" fill="#d1d5db" font-weight="700">Grafana</text>
+<text x="1154" y="549" text-anchor="middle" font-size="8.5" fill="rgba(209,213,219,0.6)">Live dashboards</text>
+<text x="1154" y="563" text-anchor="middle" font-size="8.5" fill="rgba(209,213,219,0.6)">Drift alert views</text>
+<text x="1154" y="577" text-anchor="middle" font-size="8" fill="rgba(156,163,175,0.4)">Port 3000</text>
+<text x="1154" y="591" text-anchor="middle" font-size="8" fill="rgba(156,163,175,0.4)">Prom + CW sources</text>
+
+<rect x="1228" y="516" width="130" height="94" rx="8" fill="rgba(156,163,175,0.08)" stroke="rgba(156,163,175,0.25)" stroke-width="0.8"/>
+<text x="1293" y="534" text-anchor="middle" font-size="10" fill="#d1d5db" font-weight="700">OpenTelemetry</text>
+<text x="1293" y="549" text-anchor="middle" font-size="8.5" fill="rgba(209,213,219,0.6)">Distributed traces</text>
+<text x="1293" y="563" text-anchor="middle" font-size="8.5" fill="rgba(209,213,219,0.6)">All agent spans</text>
+<text x="1293" y="577" text-anchor="middle" font-size="8" fill="rgba(156,163,175,0.4)">Agent → CW export</text>
+<text x="1293" y="591" text-anchor="middle" font-size="8" fill="rgba(156,163,175,0.4)">Cross-service trace</text>
+
+<!-- CONSUMERS -->
+<rect x="938" y="638" width="434" height="108" rx="12" fill="rgba(96,165,250,0.05)" stroke="rgba(96,165,250,0.2)" stroke-width="1"/>
+<text x="1155" y="658" text-anchor="middle" font-size="11" fill="rgba(147,197,253,0.8)" font-weight="700">Data Consumers</text>
+
+<rect x="952" y="670" width="128" height="60" rx="8" fill="rgba(96,165,250,0.1)" stroke="rgba(96,165,250,0.25)" stroke-width="0.8"/>
+<text x="1016" y="688" text-anchor="middle" font-size="9" fill="#93c5fd" font-weight="600">BI Extracts</text>
+<text x="1016" y="702" text-anchor="middle" font-size="8.5" fill="rgba(147,197,253,0.5)">Scheduled reports</text>
+<text x="1016" y="716" text-anchor="middle" font-size="8" fill="rgba(96,165,250,0.4)">Oracle direct</text>
+
+<rect x="1090" y="670" width="128" height="60" rx="8" fill="rgba(96,165,250,0.1)" stroke="rgba(96,165,250,0.25)" stroke-width="0.8"/>
+<text x="1154" y="688" text-anchor="middle" font-size="9" fill="#93c5fd" font-weight="600">REST API</text>
+<text x="1154" y="702" text-anchor="middle" font-size="8.5" fill="rgba(147,197,253,0.5)">GET /party/{epiId}</text>
+<text x="1154" y="716" text-anchor="middle" font-size="8" fill="rgba(96,165,250,0.4)">Party JSON response</text>
+
+<rect x="1228" y="670" width="130" height="60" rx="8" fill="rgba(96,165,250,0.1)" stroke="rgba(96,165,250,0.25)" stroke-width="0.8"/>
+<text x="1293" y="688" text-anchor="middle" font-size="9" fill="#93c5fd" font-weight="600">Kafka Streams</text>
+<text x="1293" y="702" text-anchor="middle" font-size="8.5" fill="rgba(147,197,253,0.5)">Real-time data feed</text>
+<text x="1293" y="716" text-anchor="middle" font-size="8" fill="rgba(96,165,250,0.4)">Downstream systems</text>
+
+<!-- ═══════════════════════════════════════════════
+     CROSS-BOUNDARY CONNECTION LINES
+═══════════════════════════════════════════════ -->
+
+<!-- Fargate → Bedrock (LLM calls) -->
+<line x1="578" y1="175" x2="838" y2="290" stroke="#a5b4fc" stroke-width="1.2" stroke-dasharray="6,4" marker-end="url(#arr)"/>
+<rect x="620" y="214" width="130" height="16" rx="4" fill="#0d1520"/>
+<text x="685" y="226" text-anchor="middle" font-size="8" fill="rgba(165,180,252,0.7)">LLM calls · code gen · drift</text>
+
+<!-- Fargate → Azure OpenAI (config/mapping) -->
+<line x1="578" y1="300" x2="614" y2="210" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="6,4" marker-end="url(#arr)"/>
+<rect x="555" y="250" width="110" height="16" rx="4" fill="#0d1520"/>
+<text x="610" y="262" text-anchor="middle" font-size="8" fill="rgba(56,189,248,0.7)">GPT-4 · config+map</text>
+
+<!-- Fargate → OpenSearch (RAG) -->
+<line x1="427" y1="522" x2="286" y2="563" stroke="#fcd34d" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#arr)"/>
+<text x="355" y="552" text-anchor="middle" font-size="8" fill="rgba(252,211,77,0.6)">RAG query</text>
+
+<!-- Fargate → S3 (memory) -->
+<line x1="427" y1="522" x2="452" y2="563" stroke="#34d399" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#arr)"/>
+
+<!-- Fargate → SQS -->
+<line x1="260" y1="522" x2="120" y2="647" stroke="#f87171" stroke-width="1.2" marker-end="url(#arr)"/>
+<text x="155" y="588" text-anchor="middle" font-size="8" fill="rgba(248,113,113,0.6)">anomaly event</text>
+
+<!-- Fargate → PCF (A2A via VPN) -->
+<line x1="578" y1="310" x2="924" y2="420" stroke="#60a5fa" stroke-width="1.5" marker-end="url(#arr-blue)"/>
+<rect x="680" y="348" width="164" height="28" rx="5" fill="#0d1520"/>
+<text x="762" y="360" text-anchor="middle" font-size="8.5" fill="rgba(96,165,250,0.85)" font-weight="600">REST · A2A protocol</text>
+<text x="762" y="372" text-anchor="middle" font-size="8" fill="rgba(96,165,250,0.55)">VPN tunnel · Port 443 · mTLS</text>
+
+<!-- Fargate → Bitbucket (Deploy agent) -->
+<line x1="578" y1="390" x2="952" y2="420" stroke="#34d399" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#arr-green)"/>
+<rect x="680" y="405" width="130" height="16" rx="4" fill="#0d1520"/>
+<text x="745" y="417" text-anchor="middle" font-size="8" fill="rgba(52,211,153,0.7)">git push · CI/CD trigger</text>
+
+<!-- Fargate → Oracle (config write) -->
+<line x1="578" y1="260" x2="952" y2="290" stroke="#f87171" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#arr)"/>
+<rect x="680" y="268" width="130" height="16" rx="4" fill="#0d1520"/>
+<text x="745" y="280" text-anchor="middle" font-size="8" fill="rgba(248,113,113,0.7)">Oracle write · A2A</text>
+
+<!-- Fargate → CloudWatch OTel -->
+<line x1="578" y1="445" x2="1155" y2="516" stroke="#94a3b8" stroke-width="0.8" stroke-dasharray="4,4" marker-end="url(#arr)"/>
+<rect x="760" y="476" width="130" height="14" rx="3" fill="#0d1520"/>
+<text x="825" y="487" text-anchor="middle" font-size="7.5" fill="rgba(148,163,184,0.6)">OTel spans · Prometheus</text>
+
+<!-- Spring Boot → Oracle (JDBC) -->
+<line x1="1050" y1="191" x2="1050" y2="204" stroke="#f87171" stroke-width="1.2" marker-end="url(#arr)"/>
+<!-- Connector → Oracle -->
+<line x1="1260" y1="191" x2="1260" y2="204" stroke="#34d399" stroke-width="1.2" marker-end="url(#arr)"/>
+
+<!-- Bitbucket → Spring Boot (deploy) -->
+<line x1="1050" y1="454" x2="1050" y2="484" stroke="#38bdf8" stroke-width="1.2" marker-end="url(#arr)"/>
+<line x1="1260" y1="454" x2="1260" y2="484" stroke="#38bdf8" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+
+<!-- Titan → OpenSearch -->
+<line x1="286" y1="721" x2="286" y2="637" stroke="#34d399" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+<text x="298" y="680" font-size="8" fill="rgba(52,211,153,0.5)">index vectors</text>
+
+<!-- ═══════ DRIFT FEEDBACK LOOP ═══════ -->
+<path d="M28 760 Q5 760 5 400 Q5 170 28 170" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="8,4" marker-end="url(#arr-red)"/>
+<rect x="0" y="440" width="10" height="80" fill="#0f1923"/>
+<text x="5" y="510" text-anchor="middle" font-size="8.5" fill="#ef4444" font-weight="700" transform="rotate(-90,5,490)">DRIFT DETECTED → RE-TRIGGER STAGE 2</text>
+
+<!-- ═══════ LEGEND ═══════ -->
+<rect x="600" y="330" width="310" height="200" rx="10" fill="rgba(15,25,35,0.95)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+<text x="755" y="352" text-anchor="middle" font-size="10" fill="#94a3b8" font-weight="700" letter-spacing="1">LEGEND</text>
+
+<rect x="616" y="362" width="12" height="12" rx="3" fill="rgba(52,211,153,0.3)" stroke="#34d399" stroke-width="1"/>
+<text x="635" y="373" font-size="8.5" fill="#94a3b8">AI agent (ECS Fargate pod)</text>
+<rect x="616" y="382" width="12" height="12" rx="3" fill="rgba(239,68,68,0.3)" stroke="#ef4444" stroke-width="1"/>
+<text x="635" y="393" font-size="8.5" fill="#94a3b8">Security / PII sensitive</text>
+<rect x="616" y="402" width="12" height="12" rx="3" fill="rgba(99,102,241,0.3)" stroke="#a5b4fc" stroke-width="1"/>
+<text x="635" y="413" font-size="8.5" fill="#94a3b8">LLM provider (AWS Bedrock)</text>
+<rect x="616" y="422" width="12" height="12" rx="3" fill="rgba(14,165,233,0.3)" stroke="#38bdf8" stroke-width="1"/>
+<text x="635" y="433" font-size="8.5" fill="#94a3b8">LLM provider (Azure OpenAI)</text>
+<rect x="616" y="442" width="12" height="12" rx="3" fill="rgba(245,158,11,0.3)" stroke="#fcd34d" stroke-width="1"/>
+<text x="635" y="453" font-size="8.5" fill="#94a3b8">Storage / Data service</text>
+<rect x="616" y="462" width="12" height="12" rx="3" fill="rgba(96,165,250,0.3)" stroke="#60a5fa" stroke-width="1"/>
+<text x="635" y="473" font-size="8.5" fill="#94a3b8">Private Cloud (PCF)</text>
+<line x1="730" y1="368" x2="760" y2="368" stroke="#60a5fa" stroke-width="1.5"/>
+<text x="768" y="372" font-size="8.5" fill="#94a3b8">Solid = sync call</text>
+<line x1="730" y1="388" x2="760" y2="388" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4,3"/>
+<text x="768" y="392" font-size="8.5" fill="#94a3b8">Dashed = async/LLM</text>
+<line x1="730" y1="408" x2="760" y2="408" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="6,3"/>
+<text x="768" y="412" font-size="8.5" fill="#94a3b8">Red dash = drift loop</text>
+
+</svg>
