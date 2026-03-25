@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>CDX Platform — 5 DML System Design Diagrams</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#10121a;color:#e2e8f8;min-height:100vh}
+.topnav{position:sticky;top:0;z-index:200;background:rgba(16,18,26,.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.07);padding:10px 18px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.logo{font-size:11px;font-weight:700;letter-spacing:.18em;color:#60a5fa;text-transform:uppercase;margin-right:8px;white-space:nowrap}
+.nb{padding:6px 14px;border-radius:20px;border:1px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.45);cursor:pointer;font-size:11px;font-weight:600;transition:all .2s;font-family:inherit;white-space:nowrap}
+.nb:hover{border-color:rgba(255,255,255,.3);color:#fff}
+.nb.on{background:#fff;color:#10121a;border-color:#fff}
+.slide{display:none}.slide.on{display:block;animation:fi .3s ease}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<div class="topnav">
+  <span class="logo">CDX · 5 DML Designs</span>
+  <button class="nb on" onclick="sw(0)">1 — Dark AWS blueprint</button>
+  <button class="nb" onclick="sw(1)">2 — Light enterprise</button>
+  <button class="nb" onclick="sw(2)">3 — Sequence / swimlane</button>
+  <button class="nb" onclick="sw(3)">4 — Cloud topology</button>
+  <button class="nb" onclick="sw(4)">5 — Data flow / pipeline</button>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     DESIGN 1 — DARK AWS BLUEPRINT  
+     Full end-to-end with embedded AWS-style icons
+     ═══════════════════════════════════════════════════════════ -->
+<div class="slide on" id="s0">
+<div style="background:#0a0e1a;min-height:100vh;padding:20px 24px;font-family:'Segoe UI',sans-serif">
+
+<!-- Header -->
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid rgba(96,165,250,.15)">
+  <div>
+    <div style="font-size:10px;letter-spacing:.2em;color:#60a5fa;text-transform:uppercase;margin-bottom:3px">CDX Platform · End-to-End Architecture</div>
+    <div style="font-size:18px;font-weight:700;color:#f0f4ff;letter-spacing:.03em">AI-Powered Client Data Exchange · DML System Design</div>
+    <div style="font-size:10px;color:rgba(96,165,250,.4);letter-spacing:.08em;margin-top:2px">Spring Boot · Oracle 19c · ECS Fargate · AWS Bedrock · Azure OpenAI · OpenSearch</div>
+  </div>
+  <div style="display:flex;gap:10px;align-items:center">
+    <div style="text-align:center;padding:8px 14px;border:1px solid rgba(96,165,250,.2);border-radius:6px">
+      <div style="font-size:18px;font-weight:700;color:#60a5fa">13</div>
+      <div style="font-size:9px;color:rgba(96,165,250,.5);letter-spacing:.1em;text-transform:uppercase">Agents</div>
+    </div>
+    <div style="text-align:center;padding:8px 14px;border:1px solid rgba(96,165,250,.2);border-radius:6px">
+      <div style="font-size:18px;font-weight:700;color:#34d399">6</div>
+      <div style="font-size:9px;color:rgba(52,211,153,.5);letter-spacing:.1em;text-transform:uppercase">Stages</div>
+    </div>
+  </div>
+</div>
+
+<svg width="100%" viewBox="0 0 1100 820" xmlns="http://www.w3.org/2000/svg" style="display:block">
+<defs>
+  <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M1 1L9 5L1 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <marker id="arrd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M1 1L9 5L1 9" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+</defs>
+
+<!-- ── ROW 1: USER LAYER ── -->
+<text x="20" y="24" font-size="9" fill="rgba(96,165,250,.5)" font-family="'Courier New',monospace" letter-spacing="2" text-transform="uppercase">USER INTERFACE LAYER</text>
+<rect x="20" y="32" width="340" height="80" rx="8" fill="rgba(96,165,250,.06)" stroke="rgba(96,165,250,.3)" stroke-width="0.8"/>
+
+<!-- Chat UI icon -->
+<rect x="36" y="46" width="48" height="48" rx="8" fill="#1e3a5f"/>
+<text x="60" y="66" text-anchor="middle" font-size="18" fill="#60a5fa">💬</text>
+<text x="60" y="82" text-anchor="middle" font-size="9" fill="#93c5fd" font-family="'Segoe UI',sans-serif">Chat UI</text>
+<text x="60" y="92" text-anchor="middle" font-size="8" fill="rgba(147,197,253,.5)" font-family="'Segoe UI',sans-serif">React</text>
+
+<!-- REST API icon -->
+<rect x="104" y="46" width="48" height="48" rx="8" fill="#1e3a5f"/>
+<text x="128" y="66" text-anchor="middle" font-size="18" fill="#60a5fa">⚡</text>
+<text x="128" y="82" text-anchor="middle" font-size="9" fill="#93c5fd" font-family="'Segoe UI',sans-serif">REST API</text>
+<text x="128" y="92" text-anchor="middle" font-size="8" fill="rgba(147,197,253,.5)" font-family="'Segoe UI',sans-serif">Spring Boot</text>
+
+<!-- Auth icon -->
+<rect x="172" y="46" width="48" height="48" rx="8" fill="#1e3a5f"/>
+<text x="196" y="66" text-anchor="middle" font-size="18" fill="#f59e0b">🔐</text>
+<text x="196" y="82" text-anchor="middle" font-size="9" fill="#93c5fd" font-family="'Segoe UI',sans-serif">Auth + RBAC</text>
+<text x="196" y="92" text-anchor="middle" font-size="8" fill="rgba(147,197,253,.5)" font-family="'Segoe UI',sans-serif">Vault + IAM</text>
+
+<!-- Agent Registry -->
+<rect x="240" y="46" width="100" height="48" rx="8" fill="#1a2a1a"/>
+<text x="290" y="64" text-anchor="middle" font-size="9" fill="#34d399" font-family="'Segoe UI',sans-serif" font-weight="600">Agent Registry</text>
+<text x="290" y="77" text-anchor="middle" font-size="8" fill="rgba(52,211,153,.6)" font-family="'Segoe UI',sans-serif">AI Platform Gov.</text>
+<text x="290" y="88" text-anchor="middle" font-size="8" fill="rgba(52,211,153,.4)" font-family="'Segoe UI',sans-serif">OpenTelemetry</text>
+
+<!-- Arrow from UI layer down -->
+<line x1="200" y1="112" x2="200" y2="144" stroke="#60a5fa" stroke-width="1.5" marker-end="url(#arr)"/>
+<text x="210" y="132" font-size="8" fill="rgba(96,165,250,.5)" font-family="'Segoe UI',sans-serif">onboard request</text>
+
+<!-- ── ROW 2: STAGE 2 INGESTION ── -->
+<text x="20" y="158" font-size="9" fill="rgba(52,211,153,.5)" font-family="'Courier New',monospace" letter-spacing="2">② AI DATA INGESTION — ECS FARGATE AGENTS</text>
+<rect x="20" y="166" width="520" height="90" rx="8" fill="rgba(52,211,153,.05)" stroke="rgba(52,211,153,.3)" stroke-width="0.8"/>
+
+<!-- Ingestion agent AWS Fargate style -->
+<rect x="34" y="178" width="110" height="64" rx="6" fill="rgba(52,211,153,.08)" stroke="rgba(52,211,153,.2)" stroke-width="0.5"/>
+<text x="50" y="196" font-size="16" fill="#34d399">🐳</text>
+<text x="89" y="192" text-anchor="middle" font-size="9" fill="#6ee7b7" font-weight="600" font-family="'Segoe UI',sans-serif">Ingestion Agent</text>
+<text x="89" y="205" text-anchor="middle" font-size="8" fill="rgba(110,231,183,.5)" font-family="'Segoe UI',sans-serif">REST/SFTP/Kafka</text>
+<text x="89" y="217" text-anchor="middle" font-size="8" fill="rgba(110,231,183,.5)" font-family="'Segoe UI',sans-serif">MQ / Web scrape</text>
+<text x="89" y="229" text-anchor="middle" font-size="7" fill="rgba(52,211,153,.4)" font-family="'Courier New',monospace">Fargate pod</text>
+
+<rect x="154" y="178" width="100" height="64" rx="6" fill="rgba(52,211,153,.08)" stroke="rgba(52,211,153,.2)" stroke-width="0.5"/>
+<text x="204" y="192" text-anchor="middle" font-size="9" fill="#6ee7b7" font-weight="600" font-family="'Segoe UI',sans-serif">Schema Agent</text>
+<text x="204" y="205" text-anchor="middle" font-size="8" fill="rgba(110,231,183,.5)" font-family="'Segoe UI',sans-serif">Type inference</text>
+<text x="204" y="217" text-anchor="middle" font-size="8" fill="rgba(110,231,183,.5)" font-family="'Segoe UI',sans-serif">Pattern detect</text>
+<text x="204" y="229" text-anchor="middle" font-size="7" fill="rgba(52,211,153,.4)" font-family="'Courier New',monospace">Fargate pod</text>
+
+<rect x="264" y="178" width="100" height="64" rx="6" fill="rgba(239,68,68,.08)" stroke="rgba(239,68,68,.25)" stroke-width="0.5"/>
+<text x="314" y="192" text-anchor="middle" font-size="9" fill="#fca5a5" font-weight="600" font-family="'Segoe UI',sans-serif">PII Agent</text>
+<text x="314" y="205" text-anchor="middle" font-size="8" fill="rgba(252,165,165,.5)" font-family="'Segoe UI',sans-serif">SSN/DOB tag</text>
+<text x="314" y="217" text-anchor="middle" font-size="8" fill="rgba(252,165,165,.5)" font-family="'Segoe UI',sans-serif">Encrypt flag</text>
+<text x="314" y="229" text-anchor="middle" font-size="7" fill="rgba(239,68,68,.4)" font-family="'Courier New',monospace">Fargate pod</text>
+
+<rect x="374" y="178" width="100" height="64" rx="6" fill="rgba(52,211,153,.08)" stroke="rgba(52,211,153,.2)" stroke-width="0.5"/>
+<text x="424" y="192" text-anchor="middle" font-size="9" fill="#6ee7b7" font-weight="600" font-family="'Segoe UI',sans-serif">Quality Profiler</text>
+<text x="424" y="205" text-anchor="middle" font-size="8" fill="rgba(110,231,183,.5)" font-family="'Segoe UI',sans-serif">Null rates</text>
+<text x="424" y="217" text-anchor="middle" font-size="8" fill="rgba(110,231,183,.5)" font-family="'Segoe UI',sans-serif">Cardinality</text>
+<text x="424" y="229" text-anchor="middle" font-size="7" fill="rgba(52,211,153,.4)" font-family="'Courier New',monospace">Fargate pod</text>
+
+<!-- Vendor sources on right of ingestion -->
+<rect x="570" y="166" width="120" height="90" rx="8" fill="rgba(239,68,68,.06)" stroke="rgba(239,68,68,.25)" stroke-width="0.8"/>
+<text x="630" y="185" text-anchor="middle" font-size="9" fill="rgba(252,165,165,.8)" font-family="'Segoe UI',sans-serif" font-weight="700">Vendor Sources</text>
+<text x="630" y="200" text-anchor="middle" font-size="8" fill="rgba(252,165,165,.5)" font-family="'Segoe UI',sans-serif">REST APIs</text>
+<text x="630" y="213" text-anchor="middle" font-size="8" fill="rgba(252,165,165,.5)" font-family="'Segoe UI',sans-serif">SFTP endpoints</text>
+<text x="630" y="226" text-anchor="middle" font-size="8" fill="rgba(252,165,165,.5)" font-family="'Segoe UI',sans-serif">Kafka topics</text>
+<text x="630" y="239" text-anchor="middle" font-size="8" fill="rgba(252,165,165,.5)" font-family="'Segoe UI',sans-serif">MQ queues</text>
+<text x="630" y="248" text-anchor="middle" font-size="7" fill="rgba(239,68,68,.4)" font-family="'Segoe UI',sans-serif">20+ connectors</text>
+<line x1="570" y1="210" x2="544" y2="210" stroke="#ef4444" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+
+<!-- Arrow down -->
+<line x1="260" y1="256" x2="260" y2="286" stroke="#34d399" stroke-width="1.5" marker-end="url(#arr)"/>
+
+<!-- ── ROW 3: MAPPING ── -->
+<text x="20" y="300" font-size="9" fill="rgba(167,139,250,.5)" font-family="'Courier New',monospace" letter-spacing="2">③ MAPPING + HUMAN REVIEW — TWO STAGE APPROVAL</text>
+<rect x="20" y="308" width="520" height="80" rx="8" fill="rgba(167,139,250,.05)" stroke="rgba(167,139,250,.3)" stroke-width="0.8"/>
+
+<rect x="34" y="320" width="110" height="56" rx="6" fill="rgba(167,139,250,.08)" stroke="rgba(167,139,250,.2)" stroke-width="0.5"/>
+<text x="89" y="338" text-anchor="middle" font-size="9" fill="#c4b5fd" font-weight="600" font-family="'Segoe UI',sans-serif">3A Schema Select</text>
+<text x="89" y="351" text-anchor="middle" font-size="8" fill="rgba(196,181,253,.5)" font-family="'Segoe UI',sans-serif">Data Architect</text>
+<text x="89" y="364" text-anchor="middle" font-size="7" fill="rgba(167,139,250,.4)" font-family="'Courier New',monospace">GPT-4 Azure</text>
+
+<rect x="154" y="320" width="110" height="56" rx="6" fill="rgba(167,139,250,.08)" stroke="rgba(167,139,250,.2)" stroke-width="0.5"/>
+<text x="209" y="338" text-anchor="middle" font-size="9" fill="#c4b5fd" font-weight="600" font-family="'Segoe UI',sans-serif">3B Field Mapping</text>
+<text x="209" y="351" text-anchor="middle" font-size="8" fill="rgba(196,181,253,.5)" font-family="'Segoe UI',sans-serif">Mapping Agent</text>
+<text x="209" y="364" text-anchor="middle" font-size="7" fill="rgba(167,139,250,.4)" font-family="'Courier New',monospace">LLM + confidence</text>
+
+<rect x="274" y="320" width="110" height="56" rx="6" fill="rgba(245,158,11,.08)" stroke="rgba(245,158,11,.25)" stroke-width="0.5"/>
+<text x="329" y="338" text-anchor="middle" font-size="9" fill="#fcd34d" font-weight="600" font-family="'Segoe UI',sans-serif">Priority Conflict</text>
+<text x="329" y="351" text-anchor="middle" font-size="8" fill="rgba(252,211,77,.5)" font-family="'Segoe UI',sans-serif">Config Writer Agt</text>
+<text x="329" y="364" text-anchor="middle" font-size="7" fill="rgba(245,158,11,.4)" font-family="'Courier New',monospace">Rank resolution</text>
+
+<rect x="394" y="320" width="110" height="56" rx="6" fill="rgba(167,139,250,.08)" stroke="rgba(167,139,250,.2)" stroke-width="0.5"/>
+<text x="449" y="338" text-anchor="middle" font-size="9" fill="#c4b5fd" font-weight="600" font-family="'Segoe UI',sans-serif">AI Chat Assistant</text>
+<text x="449" y="351" text-anchor="middle" font-size="8" fill="rgba(196,181,253,.5)" font-family="'Segoe UI',sans-serif">Claude Bedrock</text>
+<text x="449" y="364" text-anchor="middle" font-size="7" fill="rgba(167,139,250,.4)" font-family="'Courier New',monospace">Explain rationale</text>
+
+<!-- Human review UI -->
+<rect x="570" y="308" width="120" height="80" rx="8" fill="rgba(245,158,11,.06)" stroke="rgba(245,158,11,.25)" stroke-width="0.8"/>
+<text x="630" y="330" text-anchor="middle" font-size="9" fill="rgba(252,211,77,.8)" font-weight="700" font-family="'Segoe UI',sans-serif">Human Review</text>
+<text x="630" y="345" text-anchor="middle" font-size="8" fill="rgba(252,211,77,.5)" font-family="'Segoe UI',sans-serif">Developer portal</text>
+<text x="630" y="358" text-anchor="middle" font-size="8" fill="rgba(252,211,77,.5)" font-family="'Segoe UI',sans-serif">Approve/Override</text>
+<text x="630" y="371" text-anchor="middle" font-size="8" fill="rgba(252,211,77,.5)" font-family="'Segoe UI',sans-serif">Mapping contract</text>
+<text x="630" y="382" text-anchor="middle" font-size="7" fill="rgba(245,158,11,.4)" font-family="'Segoe UI',sans-serif">Versioned · Oracle</text>
+<line x1="570" y1="348" x2="544" y2="348" stroke="#f59e0b" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+
+<line x1="260" y1="388" x2="260" y2="416" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#arr)"/>
+
+<!-- ── ROW 4: CONFIG + CODE GEN ── -->
+<text x="20" y="430" font-size="9" fill="rgba(245,158,11,.5)" font-family="'Courier New',monospace" letter-spacing="2">④ CONFIG + CODE GENERATION — RAG + LLM PIPELINE</text>
+<rect x="20" y="438" width="520" height="90" rx="8" fill="rgba(245,158,11,.05)" stroke="rgba(245,158,11,.3)" stroke-width="0.8"/>
+
+<rect x="34" y="450" width="100" height="64" rx="6" fill="rgba(245,158,11,.08)" stroke="rgba(245,158,11,.2)" stroke-width="0.5"/>
+<text x="84" y="468" text-anchor="middle" font-size="9" fill="#fcd34d" font-weight="600" font-family="'Segoe UI',sans-serif">Config Writer</text>
+<text x="84" y="481" text-anchor="middle" font-size="8" fill="rgba(252,211,77,.5)" font-family="'Segoe UI',sans-serif">Platform APIs</text>
+<text x="84" y="494" text-anchor="middle" font-size="8" fill="rgba(252,211,77,.5)" font-family="'Segoe UI',sans-serif">Global Memory</text>
+<text x="84" y="506" text-anchor="middle" font-size="7" fill="rgba(245,158,11,.4)" font-family="'Courier New',monospace">Oracle write</text>
+
+<rect x="144" y="450" width="100" height="64" rx="6" fill="rgba(245,158,11,.08)" stroke="rgba(245,158,11,.2)" stroke-width="0.5"/>
+<text x="194" y="468" text-anchor="middle" font-size="9" fill="#fcd34d" font-weight="600" font-family="'Segoe UI',sans-serif">Evaluator Agent</text>
+<text x="194" y="481" text-anchor="middle" font-size="8" fill="rgba(252,211,77,.5)" font-family="'Segoe UI',sans-serif">6-dim score</text>
+<text x="194" y="494" text-anchor="middle" font-size="7" fill="rgba(245,158,11,.4)" font-family="'Segoe UI',sans-serif">100%→skip codegen</text>
+<text x="194" y="506" text-anchor="middle" font-size="7" fill="rgba(245,158,11,.4)" font-family="'Courier New',monospace">Decision gate</text>
+
+<rect x="254" y="450" width="100" height="64" rx="6" fill="rgba(245,158,11,.08)" stroke="rgba(245,158,11,.2)" stroke-width="0.5"/>
+<text x="304" y="468" text-anchor="middle" font-size="9" fill="#fcd34d" font-weight="600" font-family="'Segoe UI',sans-serif">Code Gen Agent</text>
+<text x="304" y="481" text-anchor="middle" font-size="8" fill="rgba(252,211,77,.5)" font-family="'Segoe UI',sans-serif">RAG query</text>
+<text x="304" y="494" text-anchor="middle" font-size="8" fill="rgba(252,211,77,.5)" font-family="'Segoe UI',sans-serif">Java / Spring</text>
+<text x="304" y="506" text-anchor="middle" font-size="7" fill="rgba(245,158,11,.4)" font-family="'Courier New',monospace">Claude Bedrock</text>
+
+<rect x="364" y="450" width="100" height="64" rx="6" fill="rgba(245,158,11,.08)" stroke="rgba(245,158,11,.2)" stroke-width="0.5"/>
+<text x="414" y="468" text-anchor="middle" font-size="9" fill="#fcd34d" font-weight="600" font-family="'Segoe UI',sans-serif">Code Review</text>
+<text x="414" y="481" text-anchor="middle" font-size="8" fill="rgba(252,211,77,.5)" font-family="'Segoe UI',sans-serif">Security check</text>
+<text x="414" y="494" text-anchor="middle" font-size="8" fill="rgba(252,211,77,.5)" font-family="'Segoe UI',sans-serif">Max 3 retries</text>
+<text x="414" y="506" text-anchor="middle" font-size="7" fill="rgba(245,158,11,.4)" font-family="'Courier New',monospace">Fargate pod</text>
+
+<!-- RAG infra on right -->
+<rect x="570" y="438" width="120" height="90" rx="8" fill="rgba(99,102,241,.06)" stroke="rgba(99,102,241,.3)" stroke-width="0.8"/>
+<text x="630" y="458" text-anchor="middle" font-size="9" fill="rgba(165,180,252,.8)" font-weight="700" font-family="'Segoe UI',sans-serif">RAG Pipeline</text>
+<text x="630" y="473" text-anchor="middle" font-size="8" fill="rgba(165,180,252,.5)" font-family="'Segoe UI',sans-serif">OpenSearch</text>
+<text x="630" y="486" text-anchor="middle" font-size="8" fill="rgba(165,180,252,.5)" font-family="'Segoe UI',sans-serif">Titan Embeddings</text>
+<text x="630" y="499" text-anchor="middle" font-size="8" fill="rgba(165,180,252,.5)" font-family="'Segoe UI',sans-serif">Codebase vectors</text>
+<text x="630" y="514" text-anchor="middle" font-size="7" fill="rgba(99,102,241,.4)" font-family="'Segoe UI',sans-serif">Internal RAG SDK</text>
+<line x1="570" y1="482" x2="544" y2="482" stroke="#6366f1" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+
+<line x1="260" y1="528" x2="260" y2="556" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arr)"/>
+
+<!-- ── ROW 5: DEPLOY + TEST ── -->
+<text x="20" y="570" font-size="9" fill="rgba(52,211,153,.5)" font-family="'Courier New',monospace" letter-spacing="2">⑤ DEPLOY + TEST — BITBUCKET CI/CD → CLOUD FOUNDRY</text>
+<rect x="20" y="578" width="520" height="72" rx="8" fill="rgba(52,211,153,.05)" stroke="rgba(52,211,153,.3)" stroke-width="0.8"/>
+
+<rect x="34" y="590" width="115" height="48" rx="6" fill="rgba(52,211,153,.08)" stroke="rgba(52,211,153,.2)" stroke-width="0.5"/>
+<text x="91" y="608" text-anchor="middle" font-size="9" fill="#6ee7b7" font-weight="600" font-family="'Segoe UI',sans-serif">Deploy Agent</text>
+<text x="91" y="620" text-anchor="middle" font-size="8" fill="rgba(110,231,183,.5)" font-family="'Segoe UI',sans-serif">Bitbucket → CI/CD</text>
+<text x="91" y="631" text-anchor="middle" font-size="7" fill="rgba(52,211,153,.4)" font-family="'Courier New',monospace">Cloud Foundry</text>
+
+<rect x="159" y="590" width="115" height="48" rx="6" fill="rgba(52,211,153,.08)" stroke="rgba(52,211,153,.2)" stroke-width="0.5"/>
+<text x="216" y="608" text-anchor="middle" font-size="9" fill="#6ee7b7" font-weight="600" font-family="'Segoe UI',sans-serif">Testing Agent</text>
+<text x="216" y="620" text-anchor="middle" font-size="8" fill="rgba(110,231,183,.5)" font-family="'Segoe UI',sans-serif">E2E verify</text>
+<text x="216" y="631" text-anchor="middle" font-size="7" fill="rgba(52,211,153,.4)" font-family="'Courier New',monospace">GET /party/EPI</text>
+
+<rect x="284" y="590" width="115" height="48" rx="6" fill="rgba(52,211,153,.08)" stroke="rgba(52,211,153,.2)" stroke-width="0.5"/>
+<text x="341" y="608" text-anchor="middle" font-size="9" fill="#6ee7b7" font-weight="600" font-family="'Segoe UI',sans-serif">Health Check</text>
+<text x="341" y="620" text-anchor="middle" font-size="8" fill="rgba(110,231,183,.5)" font-family="'Segoe UI',sans-serif">Auto-rollback</text>
+<text x="341" y="631" text-anchor="middle" font-size="7" fill="rgba(52,211,153,.4)" font-family="'Courier New',monospace">Prometheus</text>
+
+<rect x="409" y="590" width="115" height="48" rx="6" fill="rgba(30,58,95,.6)" stroke="rgba(96,165,250,.25)" stroke-width="0.5"/>
+<text x="466" y="608" text-anchor="middle" font-size="9" fill="#93c5fd" font-weight="600" font-family="'Segoe UI',sans-serif">Spring Boot</text>
+<text x="466" y="620" text-anchor="middle" font-size="8" fill="rgba(147,197,253,.5)" font-family="'Segoe UI',sans-serif">Java 17 + Oracle</text>
+<text x="466" y="631" text-anchor="middle" font-size="7" fill="rgba(96,165,250,.4)" font-family="'Courier New',monospace">PCF runtime</text>
+
+<line x1="260" y1="650" x2="260" y2="678" stroke="#34d399" stroke-width="1.5" marker-end="url(#arr)"/>
+
+<!-- ── ROW 6: MONITOR ── -->
+<text x="20" y="692" font-size="9" fill="rgba(239,68,68,.5)" font-family="'Courier New',monospace" letter-spacing="2">⑥ MONITOR + DRIFT DETECTION — 3-LAYER AI SYSTEM</text>
+<rect x="20" y="700" width="520" height="80" rx="8" fill="rgba(239,68,68,.05)" stroke="rgba(239,68,68,.3)" stroke-width="0.8"/>
+
+<rect x="34" y="712" width="110" height="56" rx="6" fill="rgba(239,68,68,.08)" stroke="rgba(239,68,68,.2)" stroke-width="0.5"/>
+<text x="89" y="730" text-anchor="middle" font-size="9" fill="#fca5a5" font-weight="600" font-family="'Segoe UI',sans-serif">Layer 1 · Java</text>
+<text x="89" y="743" text-anchor="middle" font-size="8" fill="rgba(252,165,165,.5)" font-family="'Segoe UI',sans-serif">Hard rules inline</text>
+<text x="89" y="756" text-anchor="middle" font-size="7" fill="rgba(239,68,68,.4)" font-family="'Courier New',monospace">0 records/PII halt</text>
+
+<rect x="154" y="712" width="110" height="56" rx="6" fill="rgba(239,68,68,.08)" stroke="rgba(239,68,68,.2)" stroke-width="0.5"/>
+<text x="209" y="730" text-anchor="middle" font-size="9" fill="#fca5a5" font-weight="600" font-family="'Segoe UI',sans-serif">Layer 2 · Python</text>
+<text x="209" y="743" text-anchor="middle" font-size="8" fill="rgba(252,165,165,.5)" font-family="'Segoe UI',sans-serif">30-day baseline</text>
+<text x="209" y="756" text-anchor="middle" font-size="7" fill="rgba(239,68,68,.4)" font-family="'Courier New',monospace">2σ detection</text>
+
+<rect x="274" y="712" width="110" height="56" rx="6" fill="rgba(239,68,68,.08)" stroke="rgba(239,68,68,.2)" stroke-width="0.5"/>
+<text x="329" y="730" text-anchor="middle" font-size="9" fill="#fca5a5" font-weight="600" font-family="'Segoe UI',sans-serif">Layer 3 · AI Agent</text>
+<text x="329" y="743" text-anchor="middle" font-size="8" fill="rgba(252,165,165,.5)" font-family="'Segoe UI',sans-serif">Claude root cause</text>
+<text x="329" y="756" text-anchor="middle" font-size="7" fill="rgba(239,68,68,.4)" font-family="'Courier New',monospace">~750 token ctx</text>
+
+<rect x="394" y="712" width="110" height="56" rx="6" fill="rgba(239,68,68,.08)" stroke="rgba(239,68,68,.2)" stroke-width="0.5"/>
+<text x="449" y="730" text-anchor="middle" font-size="9" fill="#fca5a5" font-weight="600" font-family="'Segoe UI',sans-serif">Alerting Agent</text>
+<text x="449" y="743" text-anchor="middle" font-size="8" fill="rgba(252,165,165,.5)" font-family="'Segoe UI',sans-serif">Critical/High/Med</text>
+<text x="449" y="756" text-anchor="middle" font-size="7" fill="rgba(239,68,68,.4)" font-family="'Courier New',monospace">Grafana+PagerDuty</text>
+
+<!-- Observability on right of monitor -->
+<rect x="570" y="700" width="120" height="80" rx="8" fill="rgba(75,85,99,.15)" stroke="rgba(156,163,175,.3)" stroke-width="0.8"/>
+<text x="630" y="720" text-anchor="middle" font-size="9" fill="rgba(209,213,219,.8)" font-weight="700" font-family="'Segoe UI',sans-serif">Observability</text>
+<text x="630" y="735" text-anchor="middle" font-size="8" fill="rgba(209,213,219,.5)" font-family="'Segoe UI',sans-serif">OpenTelemetry</text>
+<text x="630" y="748" text-anchor="middle" font-size="8" fill="rgba(209,213,219,.5)" font-family="'Segoe UI',sans-serif">Prometheus</text>
+<text x="630" y="761" text-anchor="middle" font-size="8" fill="rgba(209,213,219,.5)" font-family="'Segoe UI',sans-serif">Grafana</text>
+<text x="630" y="772" text-anchor="middle" font-size="7" fill="rgba(156,163,175,.4)" font-family="'Segoe UI',sans-serif">CloudWatch</text>
+<line x1="570" y1="740" x2="544" y2="740" stroke="#9ca3af" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+
+<!-- FEEDBACK LOOP ARROW (left side) -->
+<path d="M20 740 Q 0 740 0 460 Q 0 210 20 210" fill="none" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="6,4" marker-end="url(#arr)"/>
+<text x="-5" y="480" font-size="8" fill="rgba(239,68,68,.6)" font-family="'Segoe UI',sans-serif" transform="rotate(-90,-5,480)">Drift → re-ingest</text>
+
+<!-- RIGHT COLUMN: SHARED INFRA -->
+<rect x="710" y="32" width="180" height="748" rx="10" fill="rgba(30,30,50,.4)" stroke="rgba(100,100,150,.2)" stroke-width="0.8"/>
+<text x="800" y="56" text-anchor="middle" font-size="9" fill="rgba(148,163,184,.6)" font-family="'Courier New',monospace" letter-spacing="1">SHARED INFRASTRUCTURE</text>
+
+<!-- AWS Bedrock -->
+<rect x="724" y="68" width="152" height="64" rx="6" fill="rgba(99,102,241,.08)" stroke="rgba(99,102,241,.25)" stroke-width="0.5"/>
+<text x="800" y="86" text-anchor="middle" font-size="9" fill="#a5b4fc" font-weight="700" font-family="'Segoe UI',sans-serif">AWS Bedrock</text>
+<text x="800" y="99" text-anchor="middle" font-size="8" fill="rgba(165,180,252,.5)" font-family="'Segoe UI',sans-serif">Claude Sonnet</text>
+<text x="800" y="112" text-anchor="middle" font-size="8" fill="rgba(165,180,252,.5)" font-family="'Segoe UI',sans-serif">Code gen + review</text>
+<text x="800" y="124" text-anchor="middle" font-size="7" fill="rgba(99,102,241,.4)" font-family="'Courier New',monospace">us-east-1</text>
+
+<!-- Azure OpenAI -->
+<rect x="724" y="142" width="152" height="64" rx="6" fill="rgba(14,165,233,.08)" stroke="rgba(14,165,233,.25)" stroke-width="0.5"/>
+<text x="800" y="160" text-anchor="middle" font-size="9" fill="#7dd3fc" font-weight="700" font-family="'Segoe UI',sans-serif">Azure OpenAI</text>
+<text x="800" y="173" text-anchor="middle" font-size="8" fill="rgba(125,211,252,.5)" font-family="'Segoe UI',sans-serif">GPT-4 Turbo</text>
+<text x="800" y="186" text-anchor="middle" font-size="8" fill="rgba(125,211,252,.5)" font-family="'Segoe UI',sans-serif">Config + mapping</text>
+<text x="800" y="198" text-anchor="middle" font-size="7" fill="rgba(14,165,233,.4)" font-family="'Courier New',monospace">East US 2</text>
+
+<!-- OpenSearch -->
+<rect x="724" y="216" width="152" height="64" rx="6" fill="rgba(245,158,11,.08)" stroke="rgba(245,158,11,.25)" stroke-width="0.5"/>
+<text x="800" y="234" text-anchor="middle" font-size="9" fill="#fcd34d" font-weight="700" font-family="'Segoe UI',sans-serif">OpenSearch</text>
+<text x="800" y="247" text-anchor="middle" font-size="8" fill="rgba(252,211,77,.5)" font-family="'Segoe UI',sans-serif">Vector store</text>
+<text x="800" y="260" text-anchor="middle" font-size="8" fill="rgba(252,211,77,.5)" font-family="'Segoe UI',sans-serif">Titan Embeddings</text>
+<text x="800" y="272" text-anchor="middle" font-size="7" fill="rgba(245,158,11,.4)" font-family="'Courier New',monospace">RAG codebase</text>
+
+<!-- Oracle 19c -->
+<rect x="724" y="290" width="152" height="64" rx="6" fill="rgba(239,68,68,.08)" stroke="rgba(239,68,68,.25)" stroke-width="0.5"/>
+<text x="800" y="308" text-anchor="middle" font-size="9" fill="#fca5a5" font-weight="700" font-family="'Segoe UI',sans-serif">Oracle 19c</text>
+<text x="800" y="321" text-anchor="middle" font-size="8" fill="rgba(252,165,165,.5)" font-family="'Segoe UI',sans-serif">Connector configs</text>
+<text x="800" y="334" text-anchor="middle" font-size="8" fill="rgba(252,165,165,.5)" font-family="'Segoe UI',sans-serif">Party JSON (EPI)</text>
+<text x="800" y="346" text-anchor="middle" font-size="7" fill="rgba(239,68,68,.4)" font-family="'Courier New',monospace">Private cloud</text>
+
+<!-- S3 Memory -->
+<rect x="724" y="364" width="152" height="64" rx="6" fill="rgba(52,211,153,.08)" stroke="rgba(52,211,153,.25)" stroke-width="0.5"/>
+<text x="800" y="382" text-anchor="middle" font-size="9" fill="#6ee7b7" font-weight="700" font-family="'Segoe UI',sans-serif">Amazon S3</text>
+<text x="800" y="395" text-anchor="middle" font-size="8" fill="rgba(110,231,183,.5)" font-family="'Segoe UI',sans-serif">Agent memory</text>
+<text x="800" y="408" text-anchor="middle" font-size="8" fill="rgba(110,231,183,.5)" font-family="'Segoe UI',sans-serif">Session · LT · Global</text>
+<text x="800" y="420" text-anchor="middle" font-size="7" fill="rgba(52,211,153,.4)" font-family="'Courier New',monospace">LangGraph state</text>
+
+<!-- ECS Fargate -->
+<rect x="724" y="438" width="152" height="64" rx="6" fill="rgba(99,102,241,.08)" stroke="rgba(99,102,241,.25)" stroke-width="0.5"/>
+<text x="800" y="456" text-anchor="middle" font-size="9" fill="#a5b4fc" font-weight="700" font-family="'Segoe UI',sans-serif">ECS Fargate</text>
+<text x="800" y="469" text-anchor="middle" font-size="8" fill="rgba(165,180,252,.5)" font-family="'Segoe UI',sans-serif">Agent containers</text>
+<text x="800" y="482" text-anchor="middle" font-size="8" fill="rgba(165,180,252,.5)" font-family="'Segoe UI',sans-serif">Python SDK</text>
+<text x="800" y="494" text-anchor="middle" font-size="7" fill="rgba(99,102,241,.4)" font-family="'Courier New',monospace">A2A protocol</text>
+
+<!-- Secrets Vault -->
+<rect x="724" y="512" width="152" height="64" rx="6" fill="rgba(245,158,11,.08)" stroke="rgba(245,158,11,.25)" stroke-width="0.5"/>
+<text x="800" y="530" text-anchor="middle" font-size="9" fill="#fcd34d" font-weight="700" font-family="'Segoe UI',sans-serif">Secrets Vault</text>
+<text x="800" y="543" text-anchor="middle" font-size="8" fill="rgba(252,211,77,.5)" font-family="'Segoe UI',sans-serif">API keys + creds</text>
+<text x="800" y="556" text-anchor="middle" font-size="8" fill="rgba(252,211,77,.5)" font-family="'Segoe UI',sans-serif">RBAC policies</text>
+<text x="800" y="568" text-anchor="middle" font-size="7" fill="rgba(245,158,11,.4)" font-family="'Courier New',monospace">HashiCorp Vault</text>
+
+<!-- Bitbucket / CI/CD -->
+<rect x="724" y="586" width="152" height="64" rx="6" fill="rgba(52,211,153,.08)" stroke="rgba(52,211,153,.25)" stroke-width="0.5"/>
+<text x="800" y="604" text-anchor="middle" font-size="9" fill="#6ee7b7" font-weight="700" font-family="'Segoe UI',sans-serif">Bitbucket CI/CD</text>
+<text x="800" y="617" text-anchor="middle" font-size="8" fill="rgba(110,231,183,.5)" font-family="'Segoe UI',sans-serif">Auto-deploy</text>
+<text x="800" y="630" text-anchor="middle" font-size="8" fill="rgba(110,231,183,.5)" font-family="'Segoe UI',sans-serif">Pipelines</text>
+<text x="800" y="642" text-anchor="middle" font-size="7" fill="rgba(52,211,153,.4)" font-family="'Courier New',monospace">PCF deployment</text>
+
+<!-- Grafana / Obs -->
+<rect x="724" y="660" width="152" height="64" rx="6" fill="rgba(156,163,175,.08)" stroke="rgba(156,163,175,.25)" stroke-width="0.5"/>
+<text x="800" y="678" text-anchor="middle" font-size="9" fill="#d1d5db" font-weight="700" font-family="'Segoe UI',sans-serif">Grafana + Prometheus</text>
+<text x="800" y="691" text-anchor="middle" font-size="8" fill="rgba(209,213,219,.5)" font-family="'Segoe UI',sans-serif">Dashboards</text>
+<text x="800" y="704" text-anchor="middle" font-size="8" fill="rgba(209,213,219,.5)" font-family="'Segoe UI',sans-serif">OTel tracing</text>
+<text x="800" y="716" text-anchor="middle" font-size="7" fill="rgba(156,163,175,.4)" font-family="'Courier New',monospace">CloudWatch</text>
+
+<!-- Dashed connection lines from main pipeline to right infra -->
+<line x1="540" y1="200" x2="724" y2="175" stroke="rgba(99,102,241,.2)" stroke-width="0.5" stroke-dasharray="3,3"/>
+<line x1="540" y1="350" x2="724" y2="320" stroke="rgba(239,68,68,.2)" stroke-width="0.5" stroke-dasharray="3,3"/>
+<line x1="540" y1="480" x2="724" y2="470" stroke="rgba(52,211,153,.2)" stroke-width="0.5" stroke-dasharray="3,3"/>
+<line x1="540" y1="614" x2="724" y2="618" stroke="rgba(52,211,153,.2)" stroke-width="0.5" stroke-dasharray="3,3"/>
+<line x1="540" y1="740" x2="724" y2="692" stroke="rgba(156,163,175,.2)" stroke-width="0.5" stroke-dasharray="3,3"/>
+
+<!-- Legend -->
+<rect x="20" y="792" width="500" height="24" rx="4" fill="rgba(255,255,255,.02)" stroke="rgba(255,255,255,.06)" stroke-width="0.5"/>
+<circle cx="36" cy="804" r="4" fill="rgba(52,211,153,.5)"/><text x="45" y="808" font-size="8" fill="rgba(52,211,153,.7)" font-family="'Segoe UI',sans-serif">AI agent (Fargate)</text>
+<circle cx="140" cy="804" r="4" fill="rgba(239,68,68,.5)"/><text x="149" y="808" font-size="8" fill="rgba(239,68,68,.7)" font-family="'Segoe UI',sans-serif">Security / PII</text>
+<circle cx="230" cy="804" r="4" fill="rgba(245,158,11,.5)"/><text x="239" y="808" font-size="8" fill="rgba(245,158,11,.7)" font-family="'Segoe UI',sans-serif">LLM / Config</text>
+<circle cx="310" cy="804" r="4" fill="rgba(167,139,250,.5)"/><text x="319" y="808" font-size="8" fill="rgba(167,139,250,.7)" font-family="'Segoe UI',sans-serif">Human review</text>
+<line x1="390" y1="804" x2="415" y2="804" stroke="#ef4444" stroke-width="1" stroke-dasharray="4,3"/><text x="420" y="808" font-size="8" fill="rgba(239,68,68,.7)" font-family="'Segoe UI',sans-serif">Drift feedback loop</text>
+
+</svg>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     DESIGN 2 — LIGHT ENTERPRISE ARCHITECTURE
+     ═══════════════════════════════════════════════════════════ -->
+<div class="slide" id="s1">
+<div style="background:#f8f9fc;min-height:100vh;padding:24px;font-family:'Segoe UI',sans-serif">
+<div style="max-width:1100px;margin:0 auto">
+
+<div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:20px;padding-bottom:14px;border-bottom:2px solid #1e293b">
+  <div>
+    <div style="font-size:10px;letter-spacing:.18em;color:#64748b;text-transform:uppercase;margin-bottom:4px">Enterprise Architecture · Internal Confidential</div>
+    <div style="font-size:22px;font-weight:800;color:#0f172a;letter-spacing:-.02em">CDX Platform — End-to-End System Design</div>
+    <div style="font-size:13px;color:#64748b;margin-top:2px">AI-Powered Client Data Exchange · 6 Stages · 13 Agents · Spring Boot + AWS</div>
+  </div>
+  <div style="display:flex;gap:8px">
+    <div style="padding:8px 16px;background:#0f172a;color:#fff;border-radius:6px;text-align:center">
+      <div style="font-size:16px;font-weight:700">13</div><div style="font-size:9px;opacity:.6;letter-spacing:.1em;text-transform:uppercase">Agents</div>
+    </div>
+    <div style="padding:8px 16px;background:#0284c7;color:#fff;border-radius:6px;text-align:center">
+      <div style="font-size:16px;font-weight:700">6</div><div style="font-size:9px;opacity:.7;letter-spacing:.1em;text-transform:uppercase">Stages</div>
+    </div>
+  </div>
+</div>
+
+<svg width="100%" viewBox="0 0 1060 760" xmlns="http://www.w3.org/2000/svg" style="display:block">
+<defs>
+  <marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M1 2L9 5L1 8" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linejoin="round"/>
+  </marker>
+</defs>
+
+<!-- Stage containers - clean white cards -->
+
+<!-- S1 Request -->
+<rect x="10" y="10" width="1040" height="76" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="10" y="10" width="8" height="76" rx="4" fill="#0284c7"/>
+<text x="32" y="36" font-size="10" fill="#0284c7" font-family="'Segoe UI',sans-serif" font-weight="700" letter-spacing="1">① REQUEST</text>
+<rect x="32" y="44" width="130" height="34" rx="6" fill="#eff6ff" stroke="#bfdbfe" stroke-width="0.8"/>
+<text x="97" y="58" text-anchor="middle" font-size="10" fill="#1e40af" font-weight="600" font-family="'Segoe UI',sans-serif">Chat UI (React)</text>
+<text x="97" y="70" text-anchor="middle" font-size="9" fill="#3b82f6" font-family="'Segoe UI',sans-serif">Developer portal</text>
+<rect x="172" y="44" width="130" height="34" rx="6" fill="#eff6ff" stroke="#bfdbfe" stroke-width="0.8"/>
+<text x="237" y="58" text-anchor="middle" font-size="10" fill="#1e40af" font-weight="600" font-family="'Segoe UI',sans-serif">REST API</text>
+<text x="237" y="70" text-anchor="middle" font-size="9" fill="#3b82f6" font-family="'Segoe UI',sans-serif">Spring Boot gateway</text>
+<rect x="312" y="44" width="130" height="34" rx="6" fill="#fefce8" stroke="#fde68a" stroke-width="0.8"/>
+<text x="377" y="58" text-anchor="middle" font-size="10" fill="#92400e" font-weight="600" font-family="'Segoe UI',sans-serif">Auth + RBAC</text>
+<text x="377" y="70" text-anchor="middle" font-size="9" fill="#b45309" font-family="'Segoe UI',sans-serif">Vault · IAM</text>
+<rect x="452" y="44" width="150" height="34" rx="6" fill="#f0fdf4" stroke="#bbf7d0" stroke-width="0.8"/>
+<text x="527" y="58" text-anchor="middle" font-size="10" fill="#166534" font-weight="600" font-family="'Segoe UI',sans-serif">Agent Registry</text>
+<text x="527" y="70" text-anchor="middle" font-size="9" fill="#16a34a" font-family="'Segoe UI',sans-serif">AI Platform Governance</text>
+
+<!-- S2 Ingestion -->
+<rect x="10" y="102" width="1040" height="88" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="10" y="102" width="8" height="88" rx="4" fill="#059669"/>
+<text x="32" y="126" font-size="10" fill="#059669" font-family="'Segoe UI',sans-serif" font-weight="700" letter-spacing="1">② AI DATA INGESTION — 4 AGENTS ON ECS FARGATE</text>
+<rect x="32" y="132" width="190" height="46" rx="6" fill="#f0fdf4" stroke="#86efac" stroke-width="0.8"/>
+<text x="127" y="150" text-anchor="middle" font-size="10" fill="#14532d" font-weight="600" font-family="'Segoe UI',sans-serif">Ingestion Agent</text>
+<text x="127" y="163" text-anchor="middle" font-size="9" fill="#16a34a" font-family="'Segoe UI',sans-serif">REST · SFTP · Kafka · MQ · Web</text>
+<text x="127" y="173" text-anchor="middle" font-size="8" fill="#86efac" font-family="'Segoe UI',sans-serif">ECS Fargate · Python SDK</text>
+<rect x="232" y="132" width="170" height="46" rx="6" fill="#f0fdf4" stroke="#86efac" stroke-width="0.8"/>
+<text x="317" y="150" text-anchor="middle" font-size="10" fill="#14532d" font-weight="600" font-family="'Segoe UI',sans-serif">Schema Agent</text>
+<text x="317" y="163" text-anchor="middle" font-size="9" fill="#16a34a" font-family="'Segoe UI',sans-serif">Type inference · Patterns</text>
+<text x="317" y="173" text-anchor="middle" font-size="8" fill="#86efac" font-family="'Segoe UI',sans-serif">Entity detection</text>
+<rect x="412" y="132" width="170" height="46" rx="6" fill="#fff1f2" stroke="#fecdd3" stroke-width="0.8"/>
+<text x="497" y="150" text-anchor="middle" font-size="10" fill="#881337" font-weight="600" font-family="'Segoe UI',sans-serif">PII Detection Agent</text>
+<text x="497" y="163" text-anchor="middle" font-size="9" fill="#e11d48" font-family="'Segoe UI',sans-serif">SSN · DOB · Email · Phone</text>
+<text x="497" y="173" text-anchor="middle" font-size="8" fill="#fda4af" font-family="'Segoe UI',sans-serif">Encrypt flag → Vault</text>
+<rect x="592" y="132" width="170" height="46" rx="6" fill="#f0fdf4" stroke="#86efac" stroke-width="0.8"/>
+<text x="677" y="150" text-anchor="middle" font-size="10" fill="#14532d" font-weight="600" font-family="'Segoe UI',sans-serif">Quality Profiler</text>
+<text x="677" y="163" text-anchor="middle" font-size="9" fill="#16a34a" font-family="'Segoe UI',sans-serif">Null rates · Cardinality</text>
+<text x="677" y="173" text-anchor="middle" font-size="8" fill="#86efac" font-family="'Segoe UI',sans-serif">Baseline rules → Oracle</text>
+<!-- Vendor sources -->
+<rect x="790" y="132" width="240" height="46" rx="6" fill="#fff1f2" stroke="#fecdd3" stroke-width="0.8"/>
+<text x="910" y="146" text-anchor="middle" font-size="10" fill="#881337" font-weight="600" font-family="'Segoe UI',sans-serif">External Vendor Sources</text>
+<text x="910" y="159" text-anchor="middle" font-size="9" fill="#e11d48" font-family="'Segoe UI',sans-serif">Acme Financial · Bloomberg · Refinitiv + 20 more</text>
+<text x="910" y="170" text-anchor="middle" font-size="8" fill="#fda4af" font-family="'Segoe UI',sans-serif">REST · SFTP · Kafka · MQ endpoints</text>
+
+<!-- S3 Mapping -->
+<rect x="10" y="206" width="1040" height="88" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="10" y="206" width="8" height="88" rx="4" fill="#7c3aed"/>
+<text x="32" y="230" font-size="10" fill="#7c3aed" font-family="'Segoe UI',sans-serif" font-weight="700" letter-spacing="1">③ MAPPING + HUMAN REVIEW — TWO-STAGE APPROVAL</text>
+<rect x="32" y="236" width="200" height="46" rx="6" fill="#faf5ff" stroke="#d8b4fe" stroke-width="0.8"/>
+<text x="132" y="254" text-anchor="middle" font-size="10" fill="#4c1d95" font-weight="600" font-family="'Segoe UI',sans-serif">3A · Party Schema Selection</text>
+<text x="132" y="267" text-anchor="middle" font-size="9" fill="#7c3aed" font-family="'Segoe UI',sans-serif">Data Architect · mandatory/optional</text>
+<text x="132" y="277" text-anchor="middle" font-size="8" fill="#c4b5fd" font-family="'Segoe UI',sans-serif">GPT-4 Azure · priority rules</text>
+<rect x="242" y="236" width="200" height="46" rx="6" fill="#faf5ff" stroke="#d8b4fe" stroke-width="0.8"/>
+<text x="342" y="254" text-anchor="middle" font-size="10" fill="#4c1d95" font-weight="600" font-family="'Segoe UI',sans-serif">3B · Field Mapping Agent</text>
+<text x="342" y="267" text-anchor="middle" font-size="9" fill="#7c3aed" font-family="'Segoe UI',sans-serif">LLM suggest · confidence 0–100%</text>
+<text x="342" y="277" text-anchor="middle" font-size="8" fill="#c4b5fd" font-family="'Segoe UI',sans-serif">Versioned transform logic</text>
+<rect x="452" y="236" width="200" height="46" rx="6" fill="#fefce8" stroke="#fde68a" stroke-width="0.8"/>
+<text x="552" y="254" text-anchor="middle" font-size="10" fill="#713f12" font-weight="600" font-family="'Segoe UI',sans-serif">Priority Conflict Agent</text>
+<text x="552" y="267" text-anchor="middle" font-size="9" fill="#b45309" font-family="'Segoe UI',sans-serif">Multi-vendor rank resolution</text>
+<text x="552" y="277" text-anchor="middle" font-size="8" fill="#fde68a" font-family="'Segoe UI',sans-serif">Oracle: VENDOR_PRIORITY_RULES</text>
+<rect x="662" y="236" width="180" height="46" rx="6" fill="#faf5ff" stroke="#d8b4fe" stroke-width="0.8"/>
+<text x="752" y="254" text-anchor="middle" font-size="10" fill="#4c1d95" font-weight="600" font-family="'Segoe UI',sans-serif">AI Chat Assistant</text>
+<text x="752" y="267" text-anchor="middle" font-size="9" fill="#7c3aed" font-family="'Segoe UI',sans-serif">Claude Bedrock · rationale</text>
+<text x="752" y="277" text-anchor="middle" font-size="8" fill="#c4b5fd" font-family="'Segoe UI',sans-serif">Human override UI</text>
+<rect x="852" y="236" width="180" height="46" rx="6" fill="#fefce8" stroke="#fde68a" stroke-width="0.8"/>
+<text x="942" y="254" text-anchor="middle" font-size="10" fill="#713f12" font-weight="600" font-family="'Segoe UI',sans-serif">Mapping Contract</text>
+<text x="942" y="267" text-anchor="middle" font-size="9" fill="#b45309" font-family="'Segoe UI',sans-serif">Approved · Versioned · Signed</text>
+<text x="942" y="277" text-anchor="middle" font-size="8" fill="#fde68a" font-family="'Segoe UI',sans-serif">Oracle 19c persistent</text>
+
+<!-- S4 Config+Code -->
+<rect x="10" y="310" width="1040" height="88" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="10" y="310" width="8" height="88" rx="4" fill="#d97706"/>
+<text x="32" y="334" font-size="10" fill="#d97706" font-family="'Segoe UI',sans-serif" font-weight="700" letter-spacing="1">④ CONFIG + CODE GENERATION — RAG PIPELINE + LLM</text>
+<rect x="32" y="340" width="185" height="46" rx="6" fill="#fffbeb" stroke="#fde68a" stroke-width="0.8"/>
+<text x="124" y="358" text-anchor="middle" font-size="10" fill="#78350f" font-weight="600" font-family="'Segoe UI',sans-serif">Config Writer Agent</text>
+<text x="124" y="371" text-anchor="middle" font-size="9" fill="#b45309" font-family="'Segoe UI',sans-serif">Platform APIs · Global Memory</text>
+<text x="124" y="381" text-anchor="middle" font-size="8" fill="#fde68a" font-family="'Segoe UI',sans-serif">Connector JSON → Oracle</text>
+<rect x="227" y="340" width="185" height="46" rx="6" fill="#fffbeb" stroke="#fde68a" stroke-width="0.8"/>
+<text x="319" y="358" text-anchor="middle" font-size="10" fill="#78350f" font-weight="600" font-family="'Segoe UI',sans-serif">Evaluator Agent</text>
+<text x="319" y="371" text-anchor="middle" font-size="9" fill="#b45309" font-family="'Segoe UI',sans-serif">6-dim score: 100%→skip</text>
+<text x="319" y="381" text-anchor="middle" font-size="8" fill="#fde68a" font-family="'Segoe UI',sans-serif">conn · auth · extract · transform</text>
+<rect x="422" y="340" width="185" height="46" rx="6" fill="#fffbeb" stroke="#fde68a" stroke-width="0.8"/>
+<text x="514" y="358" text-anchor="middle" font-size="10" fill="#78350f" font-weight="600" font-family="'Segoe UI',sans-serif">Code Gen Agent</text>
+<text x="514" y="371" text-anchor="middle" font-size="9" fill="#b45309" font-family="'Segoe UI',sans-serif">RAG + Claude → Java/Spring</text>
+<text x="514" y="381" text-anchor="middle" font-size="8" fill="#fde68a" font-family="'Segoe UI',sans-serif">OpenSearch vector search</text>
+<rect x="617" y="340" width="185" height="46" rx="6" fill="#fffbeb" stroke="#fde68a" stroke-width="0.8"/>
+<text x="709" y="358" text-anchor="middle" font-size="10" fill="#78350f" font-weight="600" font-family="'Segoe UI',sans-serif">Code Review Agent</text>
+<text x="709" y="371" text-anchor="middle" font-size="9" fill="#b45309" font-family="'Segoe UI',sans-serif">Security · Patterns · Tests</text>
+<text x="709" y="381" text-anchor="middle" font-size="8" fill="#fde68a" font-family="'Segoe UI',sans-serif">Max 3 retries · escalate</text>
+<rect x="812" y="340" width="220" height="46" rx="6" fill="#eef2ff" stroke="#c7d2fe" stroke-width="0.8"/>
+<text x="922" y="358" text-anchor="middle" font-size="10" fill="#3730a3" font-weight="600" font-family="'Segoe UI',sans-serif">RAG Infrastructure</text>
+<text x="922" y="371" text-anchor="middle" font-size="9" fill="#4338ca" font-family="'Segoe UI',sans-serif">OpenSearch · Titan Embeddings</text>
+<text x="922" y="381" text-anchor="middle" font-size="8" fill="#a5b4fc" font-family="'Segoe UI',sans-serif">Internal RAG SDK · codebase vectors</text>
+
+<!-- S5 Deploy -->
+<rect x="10" y="414" width="1040" height="80" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="10" y="414" width="8" height="80" rx="4" fill="#059669"/>
+<text x="32" y="438" font-size="10" fill="#059669" font-family="'Segoe UI',sans-serif" font-weight="700" letter-spacing="1">⑤ DEPLOY + TEST — BITBUCKET CI/CD → CLOUD FOUNDRY · SPRING BOOT · ORACLE 19c</text>
+<rect x="32" y="444" width="200" height="38" rx="6" fill="#f0fdf4" stroke="#86efac" stroke-width="0.8"/>
+<text x="132" y="459" text-anchor="middle" font-size="10" fill="#14532d" font-weight="600" font-family="'Segoe UI',sans-serif">Deploy Agent</text>
+<text x="132" y="474" text-anchor="middle" font-size="9" fill="#16a34a" font-family="'Segoe UI',sans-serif">Bitbucket branch → CI/CD → PCF</text>
+<rect x="242" y="444" width="200" height="38" rx="6" fill="#f0fdf4" stroke="#86efac" stroke-width="0.8"/>
+<text x="342" y="459" text-anchor="middle" font-size="10" fill="#14532d" font-weight="600" font-family="'Segoe UI',sans-serif">Testing Agent</text>
+<text x="342" y="474" text-anchor="middle" font-size="9" fill="#16a34a" font-family="'Segoe UI',sans-serif">E2E · GET /party/{epiId} · Oracle</text>
+<rect x="452" y="444" width="200" height="38" rx="6" fill="#f0fdf4" stroke="#86efac" stroke-width="0.8"/>
+<text x="552" y="459" text-anchor="middle" font-size="10" fill="#14532d" font-weight="600" font-family="'Segoe UI',sans-serif">Health Check Agent</text>
+<text x="552" y="474" text-anchor="middle" font-size="9" fill="#16a34a" font-family="'Segoe UI',sans-serif">Post-deploy · auto-rollback</text>
+<rect x="662" y="444" width="380" height="38" rx="6" fill="#eff6ff" stroke="#bfdbfe" stroke-width="0.8"/>
+<text x="852" y="459" text-anchor="middle" font-size="10" fill="#1e40af" font-weight="600" font-family="'Segoe UI',sans-serif">Spring Boot Java 17 · Oracle 19c · Pivotal Cloud Foundry</text>
+<text x="852" y="474" text-anchor="middle" font-size="9" fill="#3b82f6" font-family="'Segoe UI',sans-serif">GET /party/{epiId} · 20+ connectors · aggregated Party JSON</text>
+
+<!-- S6 Monitor -->
+<rect x="10" y="510" width="1040" height="88" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="10" y="510" width="8" height="88" rx="4" fill="#dc2626"/>
+<text x="32" y="534" font-size="10" fill="#dc2626" font-family="'Segoe UI',sans-serif" font-weight="700" letter-spacing="1">⑥ MONITOR + FEEDBACK — 3-LAYER DRIFT DETECTION · ALWAYS ON</text>
+<rect x="32" y="540" width="195" height="46" rx="6" fill="#fff1f2" stroke="#fecdd3" stroke-width="0.8"/>
+<text x="129" y="558" text-anchor="middle" font-size="10" fill="#881337" font-weight="600" font-family="'Segoe UI',sans-serif">Layer 1 · Java Inline Rules</text>
+<text x="129" y="571" text-anchor="middle" font-size="9" fill="#e11d48" font-family="'Segoe UI',sans-serif">Zero records · PII unmasked</text>
+<text x="129" y="581" text-anchor="middle" font-size="8" fill="#fda4af" font-family="'Segoe UI',sans-serif">Sync · Spring Boot · Prometheus</text>
+<rect x="237" y="540" width="195" height="46" rx="6" fill="#fff1f2" stroke="#fecdd3" stroke-width="0.8"/>
+<text x="334" y="558" text-anchor="middle" font-size="10" fill="#881337" font-weight="600" font-family="'Segoe UI',sans-serif">Layer 2 · Python Stats</text>
+<text x="334" y="571" text-anchor="middle" font-size="9" fill="#e11d48" font-family="'Segoe UI',sans-serif">30-day baseline · 2σ detection</text>
+<text x="334" y="581" text-anchor="middle" font-size="8" fill="#fda4af" font-family="'Segoe UI',sans-serif">Hourly · ECS Fargate · OpenSearch</text>
+<rect x="442" y="540" width="195" height="46" rx="6" fill="#fff1f2" stroke="#fecdd3" stroke-width="0.8"/>
+<text x="539" y="558" text-anchor="middle" font-size="10" fill="#881337" font-weight="600" font-family="'Segoe UI',sans-serif">Layer 3 · AI Drift Agent</text>
+<text x="539" y="571" text-anchor="middle" font-size="9" fill="#e11d48" font-family="'Segoe UI',sans-serif">Claude · root cause · ~750 tokens</text>
+<text x="539" y="581" text-anchor="middle" font-size="8" fill="#fda4af" font-family="'Segoe UI',sans-serif">Event-driven · SQS · S3 memory</text>
+<rect x="647" y="540" width="195" height="46" rx="6" fill="#fff1f2" stroke="#fecdd3" stroke-width="0.8"/>
+<text x="744" y="558" text-anchor="middle" font-size="10" fill="#881337" font-weight="600" font-family="'Segoe UI',sans-serif">Alerting Agent</text>
+<text x="744" y="571" text-anchor="middle" font-size="9" fill="#e11d48" font-family="'Segoe UI',sans-serif">Critical / High / Medium / Low</text>
+<text x="744" y="581" text-anchor="middle" font-size="8" fill="#fda4af" font-family="'Segoe UI',sans-serif">Grafana · PagerDuty · Slack</text>
+<rect x="852" y="540" width="185" height="46" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="0.8"/>
+<text x="944" y="558" text-anchor="middle" font-size="10" fill="#334155" font-weight="600" font-family="'Segoe UI',sans-serif">Observability Stack</text>
+<text x="944" y="571" text-anchor="middle" font-size="9" fill="#64748b" font-family="'Segoe UI',sans-serif">OpenTelemetry · Prometheus</text>
+<text x="944" y="581" text-anchor="middle" font-size="8" fill="#94a3b8" font-family="'Segoe UI',sans-serif">Grafana · CloudWatch</text>
+
+<!-- Shared infra row -->
+<rect x="10" y="614" width="1040" height="56" rx="10" fill="#0f172a" stroke="#1e293b" stroke-width="1"/>
+<text x="30" y="636" font-size="9" fill="rgba(148,163,184,.6)" font-family="'Segoe UI',sans-serif" font-weight="600" letter-spacing="1">SHARED INFRASTRUCTURE</text>
+<rect x="30" y="644" width="130" height="18" rx="4" fill="rgba(99,102,241,.15)" stroke="rgba(99,102,241,.3)" stroke-width="0.5"/>
+<text x="95" y="656" text-anchor="middle" font-size="8" fill="#a5b4fc" font-family="'Segoe UI',sans-serif">AWS Bedrock · Claude</text>
+<rect x="170" y="644" width="130" height="18" rx="4" fill="rgba(14,165,233,.12)" stroke="rgba(14,165,233,.3)" stroke-width="0.5"/>
+<text x="235" y="656" text-anchor="middle" font-size="8" fill="#7dd3fc" font-family="'Segoe UI',sans-serif">Azure OpenAI · GPT-4</text>
+<rect x="310" y="644" width="130" height="18" rx="4" fill="rgba(245,158,11,.12)" stroke="rgba(245,158,11,.3)" stroke-width="0.5"/>
+<text x="375" y="656" text-anchor="middle" font-size="8" fill="#fcd34d" font-family="'Segoe UI',sans-serif">Amazon OpenSearch</text>
+<rect x="450" y="644" width="130" height="18" rx="4" fill="rgba(52,211,153,.1)" stroke="rgba(52,211,153,.3)" stroke-width="0.5"/>
+<text x="515" y="656" text-anchor="middle" font-size="8" fill="#6ee7b7" font-family="'Segoe UI',sans-serif">Amazon S3 · Agent memory</text>
+<rect x="590" y="644" width="130" height="18" rx="4" fill="rgba(99,102,241,.12)" stroke="rgba(99,102,241,.3)" stroke-width="0.5"/>
+<text x="655" y="656" text-anchor="middle" font-size="8" fill="#a5b4fc" font-family="'Segoe UI',sans-serif">ECS Fargate · A2A</text>
+<rect x="730" y="644" width="130" height="18" rx="4" fill="rgba(245,158,11,.1)" stroke="rgba(245,158,11,.3)" stroke-width="0.5"/>
+<text x="795" y="656" text-anchor="middle" font-size="8" fill="#fcd34d" font-family="'Segoe UI',sans-serif">HashiCorp Vault · RBAC</text>
+<rect x="870" y="644" width="130" height="18" rx="4" fill="rgba(52,211,153,.1)" stroke="rgba(52,211,153,.3)" stroke-width="0.5"/>
+<text x="935" y="656" text-anchor="middle" font-size="8" fill="#6ee7b7" font-family="'Segoe UI',sans-serif">Bitbucket · PCF CI/CD</text>
+
+<!-- Flow arrows -->
+<line x1="530" y1="86" x2="530" y2="102" stroke="#059669" stroke-width="1.5" marker-end="url(#a2)"/>
+<line x1="530" y1="190" x2="530" y2="206" stroke="#7c3aed" stroke-width="1.5" marker-end="url(#a2)"/>
+<line x1="530" y1="294" x2="530" y2="310" stroke="#d97706" stroke-width="1.5" marker-end="url(#a2)"/>
+<line x1="530" y1="398" x2="530" y2="414" stroke="#059669" stroke-width="1.5" marker-end="url(#a2)"/>
+<line x1="530" y1="494" x2="530" y2="510" stroke="#dc2626" stroke-width="1.5" marker-end="url(#a2)"/>
+
+<!-- Feedback arrow -->
+<path d="M10 555 Q-8 555 -8 350 Q-8 155 10 155" fill="none" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#a2)"/>
+<text x="-4" y="360" font-size="8" fill="rgba(220,38,38,.6)" font-family="'Segoe UI',sans-serif" transform="rotate(-90,-4,360)">Drift → re-ingest</text>
+
+<!-- Stage connector arrows for columns within stages -->
+<line x1="764" y1="151" x2="790" y2="151" stroke="#ef4444" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#a2)"/>
+
+</svg>
+</div>
+</div>
+</div>
+
+<!-- Designs 3, 4, 5 — Swimlane, Cloud Topology, Data Flow -->
+<div class="slide" id="s2">
+<div style="background:#1a1f2e;min-height:100vh;padding:20px 24px;font-family:'Segoe UI',sans-serif">
+<div style="font-size:10px;letter-spacing:.2em;color:#60a5fa;text-transform:uppercase;margin-bottom:4px">CDX Platform · Sequence / Swimlane Diagram</div>
+<div style="font-size:18px;font-weight:700;color:#f0f4ff;margin-bottom:16px">End-to-End Swimlane — Actors &amp; System Boundaries</div>
+
+<svg width="100%" viewBox="0 0 1060 700" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M1 2L9 5L1 8" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linejoin="round"/>
+  </marker>
+</defs>
+
+<!-- Swimlane headers -->
+<rect x="0" y="0" width="130" height="700" fill="rgba(30,58,138,.15)" stroke="rgba(96,165,250,.15)" stroke-width="0.5"/>
+<rect x="130" y="0" width="130" height="700" fill="rgba(4,120,87,.12)" stroke="rgba(52,211,153,.15)" stroke-width="0.5"/>
+<rect x="260" y="0" width="140" height="700" fill="rgba(109,40,217,.12)" stroke="rgba(167,139,250,.15)" stroke-width="0.5"/>
+<rect x="400" y="0" width="140" height="700" fill="rgba(180,83,9,.12)" stroke="rgba(251,191,36,.15)" stroke-width="0.5"/>
+<rect x="540" y="0" width="130" height="700" fill="rgba(4,120,87,.12)" stroke="rgba(52,211,153,.15)" stroke-width="0.5"/>
+<rect x="670" y="0" width="130" height="700" fill="rgba(153,27,27,.12)" stroke="rgba(239,68,68,.15)" stroke-width="0.5"/>
+<rect x="800" y="0" width="130" height="700" fill="rgba(55,48,163,.12)" stroke="rgba(99,102,241,.15)" stroke-width="0.5"/>
+<rect x="930" y="0" width="130" height="700" fill="rgba(6,78,59,.12)" stroke="rgba(52,211,153,.15)" stroke-width="0.5"/>
+
+<!-- Lane titles -->
+<text x="65" y="24" text-anchor="middle" font-size="9" fill="#93c5fd" font-weight="700" font-family="'Segoe UI',sans-serif">Developer</text>
+<text x="65" y="36" text-anchor="middle" font-size="8" fill="rgba(147,197,253,.5)" font-family="'Segoe UI',sans-serif">Human actor</text>
+<text x="195" y="24" text-anchor="middle" font-size="9" fill="#6ee7b7" font-weight="700" font-family="'Segoe UI',sans-serif">Ingestion</text>
+<text x="195" y="36" text-anchor="middle" font-size="8" fill="rgba(110,231,183,.5)" font-family="'Segoe UI',sans-serif">4 agents · ECS</text>
+<text x="330" y="24" text-anchor="middle" font-size="9" fill="#c4b5fd" font-weight="700" font-family="'Segoe UI',sans-serif">Mapping</text>
+<text x="330" y="36" text-anchor="middle" font-size="8" fill="rgba(196,181,253,.5)" font-family="'Segoe UI',sans-serif">Review agents</text>
+<text x="470" y="24" text-anchor="middle" font-size="9" fill="#fcd34d" font-weight="700" font-family="'Segoe UI',sans-serif">Config+Code</text>
+<text x="470" y="36" text-anchor="middle" font-size="8" fill="rgba(252,211,77,.5)" font-family="'Segoe UI',sans-serif">Gen agents</text>
+<text x="605" y="24" text-anchor="middle" font-size="9" fill="#6ee7b7" font-weight="700" font-family="'Segoe UI',sans-serif">Deploy+Test</text>
+<text x="605" y="36" text-anchor="middle" font-size="8" fill="rgba(110,231,183,.5)" font-family="'Segoe UI',sans-serif">CI/CD agents</text>
+<text x="735" y="24" text-anchor="middle" font-size="9" fill="#fca5a5" font-weight="700" font-family="'Segoe UI',sans-serif">Monitor</text>
+<text x="735" y="36" text-anchor="middle" font-size="8" fill="rgba(252,165,165,.5)" font-family="'Segoe UI',sans-serif">3-layer detect</text>
+<text x="865" y="24" text-anchor="middle" font-size="9" fill="#a5b4fc" font-weight="700" font-family="'Segoe UI',sans-serif">AWS Services</text>
+<text x="865" y="36" text-anchor="middle" font-size="8" fill="rgba(165,180,252,.5)" font-family="'Segoe UI',sans-serif">Bedrock · S3</text>
+<text x="995" y="24" text-anchor="middle" font-size="9" fill="#6ee7b7" font-weight="700" font-family="'Segoe UI',sans-serif">Oracle+Spring</text>
+<text x="995" y="36" text-anchor="middle" font-size="8" fill="rgba(110,231,183,.5)" font-family="'Segoe UI',sans-serif">Platform</text>
+
+<!-- Divider line below headers -->
+<line x1="0" y1="46" x2="1060" y2="46" stroke="rgba(255,255,255,.12)" stroke-width="1"/>
+
+<!-- Sequence steps - horizontal flow lines -->
+<!-- Step 1: Developer submits -->
+<rect x="20" y="62" width="90" height="30" rx="5" fill="#1e3a5f" stroke="#60a5fa" stroke-width="0.7"/>
+<text x="65" y="81" text-anchor="middle" font-size="9" fill="#93c5fd" font-family="'Segoe UI',sans-serif">Submit request</text>
+<line x1="110" y1="77" x2="175" y2="77" stroke="#60a5fa" stroke-width="1.2" marker-end="url(#a3)"/>
+
+<!-- Step 2: Ingestion runs -->
+<rect x="150" y="110" width="110" height="40" rx="5" fill="#064e3b" stroke="#34d399" stroke-width="0.7"/>
+<text x="205" y="127" text-anchor="middle" font-size="9" fill="#6ee7b7" font-family="'Segoe UI',sans-serif">Connect + ingest</text>
+<text x="205" y="142" text-anchor="middle" font-size="8" fill="rgba(110,231,183,.5)" font-family="'Segoe UI',sans-serif">REST/SFTP/Kafka</text>
+<line x1="260" y1="130" x2="310" y2="130" stroke="#34d399" stroke-width="1.2" marker-end="url(#a3)"/>
+
+<!-- Schema + PII -->
+<rect x="150" y="162" width="110" height="40" rx="5" fill="#064e3b" stroke="#34d399" stroke-width="0.7"/>
+<text x="205" y="179" text-anchor="middle" font-size="9" fill="#6ee7b7" font-family="'Segoe UI',sans-serif">Schema + PII</text>
+<text x="205" y="194" text-anchor="middle" font-size="8" fill="rgba(110,231,183,.5)" font-family="'Segoe UI',sans-serif">Quality profile</text>
+<!-- Return to dev for review notification -->
+<line x1="150" y1="182" x2="110" y2="182" stroke="#34d399" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#a3)"/>
+<text x="130" y="178" text-anchor="middle" font-size="7" fill="rgba(52,211,153,.5)" font-family="'Segoe UI',sans-serif">notify</text>
+
+<!-- Step 3: Mapping -->
+<rect x="280" y="220" width="120" height="40" rx="5" fill="#3b0764" stroke="#a78bfa" stroke-width="0.7"/>
+<text x="340" y="237" text-anchor="middle" font-size="9" fill="#c4b5fd" font-family="'Segoe UI',sans-serif">3A Schema select</text>
+<text x="340" y="252" text-anchor="middle" font-size="8" fill="rgba(196,181,253,.5)" font-family="'Segoe UI',sans-serif">Data Architect</text>
+<!-- Dev approves -->
+<line x1="280" y1="237" x2="110" y2="237" stroke="#a78bfa" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#a3)"/>
+<rect x="20" y="252" width="90" height="28" rx="5" fill="#2e1065" stroke="#a78bfa" stroke-width="0.7"/>
+<text x="65" y="270" text-anchor="middle" font-size="9" fill="#c4b5fd" font-family="'Segoe UI',sans-serif">Approve schema</text>
+<line x1="110" y1="266" x2="280" y2="266" stroke="#a78bfa" stroke-width="1.2" marker-end="url(#a3)"/>
+
+<rect x="280" y="292" width="120" height="40" rx="5" fill="#3b0764" stroke="#a78bfa" stroke-width="0.7"/>
+<text x="340" y="309" text-anchor="middle" font-size="9" fill="#c4b5fd" font-family="'Segoe UI',sans-serif">3B Field mapping</text>
+<text x="340" y="324" text-anchor="middle" font-size="8" fill="rgba(196,181,253,.5)" font-family="'Segoe UI',sans-serif">LLM + confidence</text>
+<line x1="280" y1="309" x2="110" y2="309" stroke="#a78bfa" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#a3)"/>
+<rect x="20" y="324" width="90" height="28" rx="5" fill="#2e1065" stroke="#a78bfa" stroke-width="0.7"/>
+<text x="65" y="342" text-anchor="middle" font-size="9" fill="#c4b5fd" font-family="'Segoe UI',sans-serif">Approve mapping</text>
+<line x1="110" y1="338" x2="280" y2="338" stroke="#a78bfa" stroke-width="1.2" marker-end="url(#a3)"/>
+<!-- LLM call -->
+<line x1="400" y1="309" x2="840" y2="309" stroke="#a78bfa" stroke-width="0.8" stroke-dasharray="4,3" marker-end="url(#a3)"/>
+<text x="620" y="305" text-anchor="middle" font-size="7" fill="rgba(167,139,250,.5)" font-family="'Segoe UI',sans-serif">GPT-4 Azure · mapping suggest</text>
+
+<!-- Step 4: Config+Code -->
+<rect x="420" y="370" width="120" height="40" rx="5" fill="#451a03" stroke="#f59e0b" stroke-width="0.7"/>
+<text x="480" y="387" text-anchor="middle" font-size="9" fill="#fcd34d" font-family="'Segoe UI',sans-serif">Config write</text>
+<text x="480" y="402" text-anchor="middle" font-size="8" fill="rgba(252,211,77,.5)" font-family="'Segoe UI',sans-serif">Evaluator 6-dim</text>
+<line x1="400" y1="388" x2="420" y2="388" stroke="#f59e0b" stroke-width="1.2" marker-end="url(#a3)"/>
+
+<rect x="420" y="422" width="120" height="40" rx="5" fill="#451a03" stroke="#f59e0b" stroke-width="0.7"/>
+<text x="480" y="439" text-anchor="middle" font-size="9" fill="#fcd34d" font-family="'Segoe UI',sans-serif">Code gen + review</text>
+<text x="480" y="454" text-anchor="middle" font-size="8" fill="rgba(252,211,77,.5)" font-family="'Segoe UI',sans-serif">RAG + Claude</text>
+<!-- RAG call -->
+<line x1="540" y1="441" x2="840" y2="441" stroke="#f59e0b" stroke-width="0.8" stroke-dasharray="4,3" marker-end="url(#a3)"/>
+<text x="690" y="437" text-anchor="middle" font-size="7" fill="rgba(245,158,11,.5)" font-family="'Segoe UI',sans-serif">Claude Bedrock · code generation</text>
+
+<!-- Step 5: Deploy -->
+<rect x="560" y="490" width="110" height="40" rx="5" fill="#064e3b" stroke="#34d399" stroke-width="0.7"/>
+<text x="615" y="507" text-anchor="middle" font-size="9" fill="#6ee7b7" font-family="'Segoe UI',sans-serif">Deploy+Test</text>
+<text x="615" y="522" text-anchor="middle" font-size="8" fill="rgba(110,231,183,.5)" font-family="'Segoe UI',sans-serif">Bitbucket CI/CD</text>
+<line x1="540" y1="462" x2="560" y2="462" stroke="#34d399" stroke-width="1.2" marker-end="url(#a3)"/>
+<line x1="560" y1="462" x2="560" y2="490" stroke="#34d399" stroke-width="1" marker-end="url(#a3)"/>
+<!-- Write to Oracle -->
+<line x1="670" y1="510" x2="960" y2="510" stroke="#34d399" stroke-width="0.8" stroke-dasharray="4,3" marker-end="url(#a3)"/>
+<text x="815" y="506" text-anchor="middle" font-size="7" fill="rgba(52,211,153,.5)" font-family="'Segoe UI',sans-serif">Write to Oracle 19c · Spring Boot</text>
+
+<!-- Step 6: Monitor -->
+<rect x="690" y="552" width="110" height="56" rx="5" fill="#450a0a" stroke="#ef4444" stroke-width="0.7"/>
+<text x="745" y="570" text-anchor="middle" font-size="9" fill="#fca5a5" font-family="'Segoe UI',sans-serif">Layer1 rules</text>
+<text x="745" y="583" text-anchor="middle" font-size="8" fill="rgba(252,165,165,.5)" font-family="'Segoe UI',sans-serif">Layer2 stats</text>
+<text x="745" y="596" text-anchor="middle" font-size="8" fill="rgba(252,165,165,.5)" font-family="'Segoe UI',sans-serif">Layer3 AI agent</text>
+<text x="745" y="600" text-anchor="middle" font-size="7" fill="rgba(239,68,68,.4)" font-family="'Segoe UI',sans-serif">Continuous</text>
+<line x1="670" y1="530" x2="690" y2="530" stroke="#ef4444" stroke-width="1.2" marker-end="url(#a3)"/>
+<line x1="690" y1="530" x2="690" y2="552" stroke="#ef4444" stroke-width="1" marker-end="url(#a3)"/>
+
+<!-- Drift feedback loop -->
+<path d="M690 600 Q690 640 330 640 Q195 640 195 610" fill="none" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#a3)"/>
+<text x="440" y="656" text-anchor="middle" font-size="8" fill="rgba(239,68,68,.6)" font-family="'Segoe UI',sans-serif">↻ Drift detected → Stage 2 re-ingestion queued</text>
+
+<!-- Vertical timeline markers -->
+<line x1="65" y1="46" x2="65" y2="680" stroke="rgba(96,165,250,.1)" stroke-width="0.5" stroke-dasharray="2,4"/>
+<line x1="195" y1="46" x2="195" y2="680" stroke="rgba(52,211,153,.1)" stroke-width="0.5" stroke-dasharray="2,4"/>
+<line x1="330" y1="46" x2="330" y2="680" stroke="rgba(167,139,250,.1)" stroke-width="0.5" stroke-dasharray="2,4"/>
+<line x1="470" y1="46" x2="470" y2="680" stroke="rgba(245,158,11,.1)" stroke-width="0.5" stroke-dasharray="2,4"/>
+<line x1="605" y1="46" x2="605" y2="680" stroke="rgba(52,211,153,.1)" stroke-width="0.5" stroke-dasharray="2,4"/>
+<line x1="735" y1="46" x2="735" y2="680" stroke="rgba(239,68,68,.1)" stroke-width="0.5" stroke-dasharray="2,4"/>
+<line x1="865" y1="46" x2="865" y2="680" stroke="rgba(99,102,241,.1)" stroke-width="0.5" stroke-dasharray="2,4"/>
+<line x1="995" y1="46" x2="995" y2="680" stroke="rgba(52,211,153,.1)" stroke-width="0.5" stroke-dasharray="2,4"/>
+
+</svg>
+</div>
+</div>
+
+<!-- DESIGN 4: Cloud Topology -->
+<div class="slide" id="s3">
+<div style="background:#0f1923;min-height:100vh;padding:20px 24px;font-family:'Segoe UI',sans-serif">
+<div style="font-size:10px;letter-spacing:.2em;color:#38bdf8;text-transform:uppercase;margin-bottom:4px">CDX Platform · Cloud Topology Diagram</div>
+<div style="font-size:18px;font-weight:700;color:#f0f9ff;margin-bottom:16px">AWS + PCF Cloud Architecture — Network &amp; Service Topology</div>
+
+<svg width="100%" viewBox="0 0 1060 740" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <marker id="a4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M1 2L9 5L1 8" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linejoin="round"/>
+  </marker>
+</defs>
+
+<!-- AWS Cloud boundary -->
+<rect x="10" y="10" width="680" height="720" rx="14" fill="rgba(255,153,0,.03)" stroke="rgba(255,153,0,.3)" stroke-width="1.5" stroke-dasharray="8,4"/>
+<text x="40" y="36" font-size="11" fill="rgba(255,153,0,.7)" font-family="'Segoe UI',sans-serif" font-weight="700">AWS Cloud</text>
+<!-- AWS icon placeholder -->
+<rect x="100" y="22" width="40" height="18" rx="3" fill="rgba(255,153,0,.15)"/>
+<text x="120" y="34" text-anchor="middle" font-size="9" fill="rgba(255,153,0,.8)" font-family="'Segoe UI',sans-serif" font-weight="700">AWS</text>
+
+<!-- ECS Fargate VPC -->
+<rect x="24" y="50" width="420" height="320" rx="10" fill="rgba(99,102,241,.05)" stroke="rgba(99,102,241,.25)" stroke-width="1" stroke-dasharray="5,3"/>
+<text x="44" y="72" font-size="10" fill="rgba(165,180,252,.7)" font-family="'Segoe UI',sans-serif" font-weight="600">ECS Fargate — Agent Runtime VPC</text>
+
+<!-- Agent pods in Fargate -->
+<rect x="36" y="80" width="180" height="260" rx="8" fill="rgba(99,102,241,.06)" stroke="rgba(99,102,241,.2)" stroke-width="0.7"/>
+<text x="126" y="100" text-anchor="middle" font-size="9" fill="#a5b4fc" font-family="'Segoe UI',sans-serif" font-weight="600">Stage 2 — Ingestion Pods</text>
+<rect x="50" y="108" width="152" height="30" rx="4" fill="rgba(52,211,153,.1)" stroke="rgba(52,211,153,.2)" stroke-width="0.5"/>
+<text x="126" y="127" text-anchor="middle" font-size="9" fill="#6ee7b7" font-family="'Segoe UI',sans-serif">Ingestion Agent · pod-1</text>
+<rect x="50" y="144" width="152" height="30" rx="4" fill="rgba(52,211,153,.1)" stroke="rgba(52,211,153,.2)" stroke-width="0.5"/>
+<text x="126" y="163" text-anchor="middle" font-size="9" fill="#6ee7b7" font-family="'Segoe UI',sans-serif">Schema Agent · pod-2</text>
+<rect x="50" y="180" width="152" height="30" rx="4" fill="rgba(239,68,68,.1)" stroke="rgba(239,68,68,.2)" stroke-width="0.5"/>
+<text x="126" y="199" text-anchor="middle" font-size="9" fill="#fca5a5" font-family="'Segoe UI',sans-serif">PII Agent · pod-3</text>
+<rect x="50" y="216" width="152" height="30" rx="4" fill="rgba(52,211,153,.1)" stroke="rgba(52,211,153,.2)" stroke-width="0.5"/>
+<text x="126" y="235" text-anchor="middle" font-size="9" fill="#6ee7b7" font-family="'Segoe UI',sans-serif">Quality Profiler · pod-4</text>
+<rect x="50" y="252" width="152" height="30" rx="4" fill="rgba(245,158,11,.1)" stroke="rgba(245,158,11,.2)" stroke-width="0.5"/>
+<text x="126" y="271" text-anchor="middle" font-size="9" fill="#fcd34d" font-family="'Segoe UI',sans-serif">Priority Conflict · pod-5</text>
+<rect x="50" y="288" width="152" height="30" rx="4" fill="rgba(167,139,250,.1)" stroke="rgba(167,139,250,.2)" stroke-width="0.5"/>
+<text x="126" y="307" text-anchor="middle" font-size="9" fill="#c4b5fd" font-family="'Segoe UI',sans-serif">Mapping Agent · pod-6</text>
+
+<rect x="230" y="80" width="200" height="260" rx="8" fill="rgba(99,102,241,.06)" stroke="rgba(99,102,241,.2)" stroke-width="0.7"/>
+<text x="330" y="100" text-anchor="middle" font-size="9" fill="#a5b4fc" font-family="'Segoe UI',sans-serif" font-weight="600">Stage 4–5 — Build+Deploy Pods</text>
+<rect x="244" y="108" width="172" height="30" rx="4" fill="rgba(245,158,11,.1)" stroke="rgba(245,158,11,.2)" stroke-width="0.5"/>
+<text x="330" y="127" text-anchor="middle" font-size="9" fill="#fcd34d" font-family="'Segoe UI',sans-serif">Config Writer · pod-7</text>
+<rect x="244" y="144" width="172" height="30" rx="4" fill="rgba(245,158,11,.1)" stroke="rgba(245,158,11,.2)" stroke-width="0.5"/>
+<text x="330" y="163" text-anchor="middle" font-size="9" fill="#fcd34d" font-family="'Segoe UI',sans-serif">Code Gen Agent · pod-8</text>
+<rect x="244" y="180" width="172" height="30" rx="4" fill="rgba(245,158,11,.1)" stroke="rgba(245,158,11,.2)" stroke-width="0.5"/>
+<text x="330" y="199" text-anchor="middle" font-size="9" fill="#fcd34d" font-family="'Segoe UI',sans-serif">Code Review · pod-9</text>
+<rect x="244" y="216" width="172" height="30" rx="4" fill="rgba(52,211,153,.1)" stroke="rgba(52,211,153,.2)" stroke-width="0.5"/>
+<text x="330" y="235" text-anchor="middle" font-size="9" fill="#6ee7b7" font-family="'Segoe UI',sans-serif">Deploy Agent · pod-10</text>
+<rect x="244" y="252" width="172" height="30" rx="4" fill="rgba(52,211,153,.1)" stroke="rgba(52,211,153,.2)" stroke-width="0.5"/>
+<text x="330" y="271" text-anchor="middle" font-size="9" fill="#6ee7b7" font-family="'Segoe UI',sans-serif">Testing Agent · pod-11</text>
+<rect x="244" y="288" width="172" height="30" rx="4" fill="rgba(239,68,68,.1)" stroke="rgba(239,68,68,.2)" stroke-width="0.5"/>
+<text x="330" y="307" text-anchor="middle" font-size="9" fill="#fca5a5" font-family="'Segoe UI',sans-serif">AI Drift Agent · pod-12</text>
+
+<!-- AWS Managed Services -->
+<rect x="24" y="386" width="420" height="200" rx="10" fill="rgba(255,153,0,.04)" stroke="rgba(255,153,0,.2)" stroke-width="1" stroke-dasharray="5,3"/>
+<text x="44" y="406" font-size="10" fill="rgba(255,153,0,.7)" font-family="'Segoe UI',sans-serif" font-weight="600">AWS Managed Services</text>
+
+<rect x="36" y="414" width="120" height="60" rx="7" fill="rgba(99,102,241,.1)" stroke="rgba(99,102,241,.3)" stroke-width="0.7"/>
+<text x="96" y="432" text-anchor="middle" font-size="9" fill="#a5b4fc" font-weight="700" font-family="'Segoe UI',sans-serif">AWS Bedrock</text>
+<text x="96" y="447" text-anchor="middle" font-size="8" fill="rgba(165,180,252,.6)" font-family="'Segoe UI',sans-serif">Claude Sonnet</text>
+<text x="96" y="461" text-anchor="middle" font-size="7" fill="rgba(99,102,241,.5)" font-family="'Segoe UI',sans-serif">us-east-1</text>
+
+<rect x="166" y="414" width="120" height="60" rx="7" fill="rgba(245,158,11,.1)" stroke="rgba(245,158,11,.3)" stroke-width="0.7"/>
+<text x="226" y="432" text-anchor="middle" font-size="9" fill="#fcd34d" font-weight="700" font-family="'Segoe UI',sans-serif">OpenSearch</text>
+<text x="226" y="447" text-anchor="middle" font-size="8" fill="rgba(252,211,77,.6)" font-family="'Segoe UI',sans-serif">Serverless</text>
+<text x="226" y="461" text-anchor="middle" font-size="7" fill="rgba(245,158,11,.5)" font-family="'Segoe UI',sans-serif">RAG vectors</text>
+
+<rect x="296" y="414" width="120" height="60" rx="7" fill="rgba(52,211,153,.1)" stroke="rgba(52,211,153,.3)" stroke-width="0.7"/>
+<text x="356" y="432" text-anchor="middle" font-size="9" fill="#6ee7b7" font-weight="700" font-family="'Segoe UI',sans-serif">Amazon S3</text>
+<text x="356" y="447" text-anchor="middle" font-size="8" fill="rgba(110,231,183,.6)" font-family="'Segoe UI',sans-serif">Agent memory</text>
+<text x="356" y="461" text-anchor="middle" font-size="7" fill="rgba(52,211,153,.5)" font-family="'Segoe UI',sans-serif">Session + LT</text>
+
+<rect x="36" y="484" width="120" height="60" rx="7" fill="rgba(239,68,68,.1)" stroke="rgba(239,68,68,.3)" stroke-width="0.7"/>
+<text x="96" y="502" text-anchor="middle" font-size="9" fill="#fca5a5" font-weight="700" font-family="'Segoe UI',sans-serif">Amazon SQS</text>
+<text x="96" y="517" text-anchor="middle" font-size="8" fill="rgba(252,165,165,.6)" font-family="'Segoe UI',sans-serif">Drift events</text>
+<text x="96" y="531" text-anchor="middle" font-size="7" fill="rgba(239,68,68,.5)" font-family="'Segoe UI',sans-serif">Agent queues</text>
+
+<rect x="166" y="484" width="120" height="60" rx="7" fill="rgba(156,163,175,.1)" stroke="rgba(156,163,175,.3)" stroke-width="0.7"/>
+<text x="226" y="502" text-anchor="middle" font-size="9" fill="#d1d5db" font-weight="700" font-family="'Segoe UI',sans-serif">CloudWatch</text>
+<text x="226" y="517" text-anchor="middle" font-size="8" fill="rgba(209,213,219,.6)" font-family="'Segoe UI',sans-serif">Metrics + logs</text>
+<text x="226" y="531" text-anchor="middle" font-size="7" fill="rgba(156,163,175,.5)" font-family="'Segoe UI',sans-serif">Agent tracing</text>
+
+<rect x="296" y="484" width="120" height="60" rx="7" fill="rgba(52,211,153,.1)" stroke="rgba(52,211,153,.3)" stroke-width="0.7"/>
+<text x="356" y="502" text-anchor="middle" font-size="9" fill="#6ee7b7" font-weight="700" font-family="'Segoe UI',sans-serif">Titan Embed.</text>
+<text x="356" y="517" text-anchor="middle" font-size="8" fill="rgba(110,231,183,.6)" font-family="'Segoe UI',sans-serif">Embeddings</text>
+<text x="356" y="531" text-anchor="middle" font-size="7" fill="rgba(52,211,153,.5)" font-family="'Segoe UI',sans-serif">RAG indexing</text>
+
+<!-- AWS Secrets Manager -->
+<rect x="36" y="600" width="390" height="40" rx="7" fill="rgba(245,158,11,.08)" stroke="rgba(245,158,11,.25)" stroke-width="0.7"/>
+<text x="231" y="618" text-anchor="middle" font-size="9" fill="#fcd34d" font-weight="700" font-family="'Segoe UI',sans-serif">HashiCorp Vault + AWS Secrets Manager — API Keys · RBAC · Credentials</text>
+<text x="231" y="631" text-anchor="middle" font-size="8" fill="rgba(252,211,77,.5)" font-family="'Segoe UI',sans-serif">A2A token auth · mTLS between agents</text>
+
+<!-- Azure boundary -->
+<rect x="480" y="50" width="200" height="150" rx="10" fill="rgba(14,165,233,.04)" stroke="rgba(14,165,233,.3)" stroke-width="1.5" stroke-dasharray="8,4"/>
+<text x="500" y="72" font-size="10" fill="rgba(14,165,233,.7)" font-family="'Segoe UI',sans-serif" font-weight="700">Microsoft Azure</text>
+<rect x="494" y="82" width="168" height="100" rx="8" fill="rgba(14,165,233,.08)" stroke="rgba(14,165,233,.25)" stroke-width="0.7"/>
+<text x="578" y="102" text-anchor="middle" font-size="10" fill="#7dd3fc" font-weight="700" font-family="'Segoe UI',sans-serif">Azure OpenAI</text>
+<text x="578" y="118" text-anchor="middle" font-size="9" fill="rgba(125,211,252,.6)" font-family="'Segoe UI',sans-serif">GPT-4 Turbo</text>
+<text x="578" y="134" text-anchor="middle" font-size="8" fill="rgba(14,165,233,.5)" font-family="'Segoe UI',sans-serif">Config + mapping LLM</text>
+<text x="578" y="148" text-anchor="middle" font-size="8" fill="rgba(14,165,233,.4)" font-family="'Segoe UI',sans-serif">East US 2 region</text>
+<text x="578" y="162" text-anchor="middle" font-size="7" fill="rgba(14,165,233,.35)" font-family="'Segoe UI',sans-serif">Private endpoint</text>
+
+<!-- Private Cloud / PCF -->
+<rect x="700" y="10" width="350" height="720" rx="14" fill="rgba(30,58,95,.15)" stroke="rgba(96,165,250,.25)" stroke-width="1.5" stroke-dasharray="8,4"/>
+<text x="720" y="36" font-size="11" fill="rgba(96,165,250,.7)" font-family="'Segoe UI',sans-serif" font-weight="700">Private Cloud (PCF / GAP)</text>
+
+<rect x="714" y="52" width="322" height="200" rx="10" fill="rgba(52,211,153,.05)" stroke="rgba(52,211,153,.2)" stroke-width="0.8"/>
+<text x="875" y="74" text-anchor="middle" font-size="10" fill="rgba(110,231,183,.7)" font-family="'Segoe UI',sans-serif" font-weight="600">Spring Boot Platform — Java 17</text>
+
+<rect x="726" y="82" width="145" height="50" rx="6" fill="rgba(96,165,250,.08)" stroke="rgba(96,165,250,.2)" stroke-width="0.5"/>
+<text x="798" y="100" text-anchor="middle" font-size="9" fill="#93c5fd" font-weight="600" font-family="'Segoe UI',sans-serif">CDX REST API</text>
+<text x="798" y="113" text-anchor="middle" font-size="8" fill="rgba(147,197,253,.5)" font-family="'Segoe UI',sans-serif">GET /party/{epiId}</text>
+<text x="798" y="123" text-anchor="middle" font-size="7" fill="rgba(96,165,250,.4)" font-family="'Segoe UI',sans-serif">Party JSON aggregator</text>
+
+<rect x="881" y="82" width="145" height="50" rx="6" fill="rgba(52,211,153,.08)" stroke="rgba(52,211,153,.2)" stroke-width="0.5"/>
+<text x="953" y="100" text-anchor="middle" font-size="9" fill="#6ee7b7" font-weight="600" font-family="'Segoe UI',sans-serif">Connector Engine</text>
+<text x="953" y="113" text-anchor="middle" font-size="8" fill="rgba(110,231,183,.5)" font-family="'Segoe UI',sans-serif">20+ connectors</text>
+<text x="953" y="123" text-anchor="middle" font-size="7" fill="rgba(52,211,153,.4)" font-family="'Segoe UI',sans-serif">Generated by AI agents</text>
+
+<rect x="726" y="142" width="300" height="100" rx="6" fill="rgba(239,68,68,.07)" stroke="rgba(239,68,68,.2)" stroke-width="0.5"/>
+<text x="876" y="162" text-anchor="middle" font-size="10" fill="#fca5a5" font-weight="700" font-family="'Segoe UI',sans-serif">Oracle 19c Database</text>
+<text x="876" y="178" text-anchor="middle" font-size="9" fill="rgba(252,165,165,.6)" font-family="'Segoe UI',sans-serif">CONNECTOR_CONFIGS · PARTY_DATA</text>
+<text x="876" y="193" text-anchor="middle" font-size="9" fill="rgba(252,165,165,.6)" font-family="'Segoe UI',sans-serif">MAPPING_CONTRACTS · VENDOR_PRIORITY_RULES</text>
+<text x="876" y="208" text-anchor="middle" font-size="9" fill="rgba(252,165,165,.6)" font-family="'Segoe UI',sans-serif">AI_LICENCE_REQUESTS · CONNECTOR_RULES</text>
+<text x="876" y="222" text-anchor="middle" font-size="7" fill="rgba(239,68,68,.4)" font-family="'Segoe UI',sans-serif">Private cloud · 19c RAC</text>
+
+<!-- Bitbucket -->
+<rect x="714" y="265" width="322" height="80" rx="10" fill="rgba(14,165,233,.05)" stroke="rgba(14,165,233,.2)" stroke-width="0.8"/>
+<text x="875" y="285" text-anchor="middle" font-size="10" fill="rgba(125,211,252,.7)" font-family="'Segoe UI',sans-serif" font-weight="600">Bitbucket + CI/CD Pipeline</text>
+<rect x="726" y="293" width="145" height="40" rx="6" fill="rgba(14,165,233,.08)" stroke="rgba(14,165,233,.2)" stroke-width="0.5"/>
+<text x="798" y="310" text-anchor="middle" font-size="9" fill="#7dd3fc" font-family="'Segoe UI',sans-serif">Bitbucket repos</text>
+<text x="798" y="323" text-anchor="middle" font-size="8" fill="rgba(125,211,252,.5)" font-family="'Segoe UI',sans-serif">Generated code PRs</text>
+<rect x="881" y="293" width="145" height="40" rx="6" fill="rgba(14,165,233,.08)" stroke="rgba(14,165,233,.2)" stroke-width="0.5"/>
+<text x="953" y="310" text-anchor="middle" font-size="9" fill="#7dd3fc" font-family="'Segoe UI',sans-serif">CI/CD Pipelines</text>
+<text x="953" y="323" text-anchor="middle" font-size="8" fill="rgba(125,211,252,.5)" font-family="'Segoe UI',sans-serif">Auto-deploy to PCF</text>
+
+<!-- Monitoring stack -->
+<rect x="714" y="360" width="322" height="100" rx="10" fill="rgba(156,163,175,.05)" stroke="rgba(156,163,175,.2)" stroke-width="0.8"/>
+<text x="875" y="380" text-anchor="middle" font-size="10" fill="rgba(209,213,219,.7)" font-family="'Segoe UI',sans-serif" font-weight="600">Observability Stack</text>
+<rect x="726" y="388" width="90" height="60" rx="6" fill="rgba(156,163,175,.08)" stroke="rgba(156,163,175,.2)" stroke-width="0.5"/>
+<text x="771" y="412" text-anchor="middle" font-size="8" fill="#d1d5db" font-family="'Segoe UI',sans-serif" font-weight="600">Prometheus</text>
+<text x="771" y="426" text-anchor="middle" font-size="7" fill="rgba(209,213,219,.5)" font-family="'Segoe UI',sans-serif">Metrics</text>
+<rect x="826" y="388" width="90" height="60" rx="6" fill="rgba(156,163,175,.08)" stroke="rgba(156,163,175,.2)" stroke-width="0.5"/>
+<text x="871" y="412" text-anchor="middle" font-size="8" fill="#d1d5db" font-family="'Segoe UI',sans-serif" font-weight="600">Grafana</text>
+<text x="871" y="426" text-anchor="middle" font-size="7" fill="rgba(209,213,219,.5)" font-family="'Segoe UI',sans-serif">Dashboards</text>
+<rect x="926" y="388" width="100" height="60" rx="6" fill="rgba(156,163,175,.08)" stroke="rgba(156,163,175,.2)" stroke-width="0.5"/>
+<text x="976" y="412" text-anchor="middle" font-size="8" fill="#d1d5db" font-family="'Segoe UI',sans-serif" font-weight="600">OpenTelemetry</text>
+<text x="976" y="426" text-anchor="middle" font-size="7" fill="rgba(209,213,219,.5)" font-family="'Segoe UI',sans-serif">Distributed trace</text>
+
+<!-- User/Internet layer at bottom of PCF -->
+<rect x="714" y="475" width="322" height="80" rx="10" fill="rgba(96,165,250,.05)" stroke="rgba(96,165,250,.2)" stroke-width="0.8"/>
+<text x="875" y="495" text-anchor="middle" font-size="10" fill="rgba(147,197,253,.7)" font-family="'Segoe UI',sans-serif" font-weight="600">Consumers</text>
+<rect x="726" y="503" width="90" height="40" rx="6" fill="rgba(96,165,250,.08)" stroke="rgba(96,165,250,.2)" stroke-width="0.5"/>
+<text x="771" y="520" text-anchor="middle" font-size="8" fill="#93c5fd" font-family="'Segoe UI',sans-serif">BI Extracts</text>
+<text x="771" y="532" text-anchor="middle" font-size="7" fill="rgba(147,197,253,.5)" font-family="'Segoe UI',sans-serif">Reports</text>
+<rect x="826" y="503" width="90" height="40" rx="6" fill="rgba(96,165,250,.08)" stroke="rgba(96,165,250,.2)" stroke-width="0.5"/>
+<text x="871" y="520" text-anchor="middle" font-size="8" fill="#93c5fd" font-family="'Segoe UI',sans-serif">REST API</text>
+<text x="871" y="532" text-anchor="middle" font-size="7" fill="rgba(147,197,253,.5)" font-family="'Segoe UI',sans-serif">Party JSON</text>
+<rect x="926" y="503" width="100" height="40" rx="6" fill="rgba(96,165,250,.08)" stroke="rgba(96,165,250,.2)" stroke-width="0.5"/>
+<text x="976" y="520" text-anchor="middle" font-size="8" fill="#93c5fd" font-family="'Segoe UI',sans-serif">Data Streams</text>
+<text x="976" y="532" text-anchor="middle" font-size="7" fill="rgba(147,197,253,.5)" font-family="'Segoe UI',sans-serif">Kafka topics</text>
+
+<!-- Cross-boundary connections -->
+<line x1="444" y1="190" x2="714" y2="190" stroke="#60a5fa" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#a4)"/>
+<text x="580" y="185" text-anchor="middle" font-size="7" fill="rgba(96,165,250,.5)" font-family="'Segoe UI',sans-serif">A2A protocol · Oracle read/write</text>
+<line x1="444" y1="444" x2="714" y2="444" stroke="#34d399" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#a4)"/>
+<text x="580" y="439" text-anchor="middle" font-size="7" fill="rgba(52,211,153,.5)" font-family="'Segoe UI',sans-serif">Bitbucket push · CI/CD trigger</text>
+<line x1="444" y1="514" x2="714" y2="514" stroke="#a78bfa" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#a4)"/>
+<text x="580" y="509" text-anchor="middle" font-size="7" fill="rgba(167,139,250,.5)" font-family="'Segoe UI',sans-serif">Prometheus metrics · OpenTelemetry spans</text>
+<line x1="580" y1="132" x2="444" y2="132" stroke="#7dd3fc" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#a4)"/>
+<text x="510" y="127" text-anchor="middle" font-size="7" fill="rgba(14,165,233,.5)" font-family="'Segoe UI',sans-serif">GPT-4 calls</text>
+
+</svg>
+</div>
+</div>
+
+<!-- DESIGN 5: Data Flow / Pipeline -->
+<div class="slide" id="s4">
+<div style="background:#f5f0e8;min-height:100vh;padding:20px 24px;font-family:'Segoe UI',sans-serif">
+<div style="margin-bottom:16px;padding-bottom:14px;border-bottom:3px solid #1a1208">
+  <div style="font-size:10px;letter-spacing:.2em;color:#c45000;text-transform:uppercase;margin-bottom:4px">CDX Platform · Data Flow Diagram</div>
+  <div style="font-size:22px;font-weight:900;color:#1a1208;letter-spacing:-.02em">End-to-End Data Pipeline — What flows where</div>
+  <div style="font-size:13px;color:#6b5830;margin-top:2px">Showing data artifacts, transformations, and storage at every stage</div>
+</div>
+
+<svg width="100%" viewBox="0 0 1060 720" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <marker id="a5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M1 2L9 5L1 8" fill="none" stroke="context-stroke" stroke-width="2" stroke-linejoin="round"/>
+  </marker>
+</defs>
+
+<!-- Data artifacts flow - left to right with transformation nodes -->
+
+<!-- Input: Vendor Raw Data -->
+<rect x="10" y="160" width="140" height="120" rx="8" fill="#fde8d8" stroke="#c45000" stroke-width="1.5"/>
+<text x="80" y="185" text-anchor="middle" font-size="11" fill="#7a2e00" font-weight="800" font-family="'Segoe UI',sans-serif">Vendor</text>
+<text x="80" y="200" text-anchor="middle" font-size="11" fill="#7a2e00" font-weight="800" font-family="'Segoe UI',sans-serif">Raw Data</text>
+<text x="80" y="220" text-anchor="middle" font-size="9" fill="#c45000" font-family="'Segoe UI',sans-serif">JSON · CSV · XML</text>
+<text x="80" y="235" text-anchor="middle" font-size="9" fill="#c45000" font-family="'Segoe UI',sans-serif">SFTP files</text>
+<text x="80" y="250" text-anchor="middle" font-size="9" fill="#c45000" font-family="'Segoe UI',sans-serif">Kafka events</text>
+<text x="80" y="265" text-anchor="middle" font-size="8" fill="rgba(196,80,0,.5)" font-family="'Segoe UI',sans-serif">Unstructured</text>
+
+<!-- Arrow 1 -->
+<line x1="150" y1="220" x2="196" y2="220" stroke="#c45000" stroke-width="2.5" marker-end="url(#a5)"/>
+
+<!-- Transform 1: Ingestion -->
+<rect x="196" y="186" width="100" height="68" rx="6" fill="#1a1208" stroke="#c45000" stroke-width="1"/>
+<text x="246" y="210" text-anchor="middle" font-size="9" fill="#f2ede4" font-weight="700" font-family="'Segoe UI',sans-serif">Ingestion</text>
+<text x="246" y="225" text-anchor="middle" font-size="8" fill="rgba(242,237,228,.6)" font-family="'Segoe UI',sans-serif">Connect+pull</text>
+<text x="246" y="240" text-anchor="middle" font-size="7" fill="rgba(242,237,228,.4)" font-family="'Segoe UI',sans-serif">4 agents · ECS</text>
+
+<!-- Arrow 2 -->
+<line x1="296" y1="220" x2="340" y2="220" stroke="#1565c0" stroke-width="2.5" marker-end="url(#a5)"/>
+
+<!-- Artifact 2: Staged Raw + Metadata -->
+<rect x="340" y="150" width="140" height="140" rx="8" fill="#dbeafe" stroke="#1565c0" stroke-width="1.5"/>
+<text x="410" y="178" text-anchor="middle" font-size="10" fill="#1e3a8a" font-weight="800" font-family="'Segoe UI',sans-serif">Staged Data</text>
+<text x="410" y="196" text-anchor="middle" font-size="9" fill="#1d4ed8" font-family="'Segoe UI',sans-serif">Raw payload</text>
+<text x="410" y="212" text-anchor="middle" font-size="9" fill="#1d4ed8" font-family="'Segoe UI',sans-serif">Schema metadata</text>
+<text x="410" y="228" text-anchor="middle" font-size="9" fill="#1d4ed8" font-family="'Segoe UI',sans-serif">PII field map</text>
+<text x="410" y="244" text-anchor="middle" font-size="9" fill="#1d4ed8" font-family="'Segoe UI',sans-serif">Quality baseline</text>
+<text x="410" y="260" text-anchor="middle" font-size="8" fill="rgba(29,78,216,.5)" font-family="'Segoe UI',sans-serif">Oracle staging</text>
+<text x="410" y="277" text-anchor="middle" font-size="7" fill="rgba(29,78,216,.4)" font-family="'Segoe UI',sans-serif">+ S3 memory snap</text>
+
+<!-- Arrow 3 -->
+<line x1="480" y1="220" x2="524" y2="220" stroke="#7c3aed" stroke-width="2.5" marker-end="url(#a5)"/>
+
+<!-- Transform 2: Mapping -->
+<rect x="524" y="186" width="100" height="68" rx="6" fill="#1a1208" stroke="#7c3aed" stroke-width="1"/>
+<text x="574" y="210" text-anchor="middle" font-size="9" fill="#f2ede4" font-weight="700" font-family="'Segoe UI',sans-serif">Map+Review</text>
+<text x="574" y="225" text-anchor="middle" font-size="8" fill="rgba(242,237,228,.6)" font-family="'Segoe UI',sans-serif">LLM+Human</text>
+<text x="574" y="240" text-anchor="middle" font-size="7" fill="rgba(242,237,228,.4)" font-family="'Segoe UI',sans-serif">3A+3B+Priority</text>
+
+<!-- Arrow 4 -->
+<line x1="624" y1="220" x2="668" y2="220" stroke="#7c3aed" stroke-width="2.5" marker-end="url(#a5)"/>
+
+<!-- Artifact 3: Mapping Contract -->
+<rect x="668" y="150" width="140" height="140" rx="8" fill="#f3e8ff" stroke="#7c3aed" stroke-width="1.5"/>
+<text x="738" y="178" text-anchor="middle" font-size="10" fill="#4c1d95" font-weight="800" font-family="'Segoe UI',sans-serif">Mapping</text>
+<text x="738" y="192" text-anchor="middle" font-size="10" fill="#4c1d95" font-weight="800" font-family="'Segoe UI',sans-serif">Contract</text>
+<text x="738" y="212" text-anchor="middle" font-size="9" fill="#6d28d9" font-family="'Segoe UI',sans-serif">Field mappings v1</text>
+<text x="738" y="228" text-anchor="middle" font-size="9" fill="#6d28d9" font-family="'Segoe UI',sans-serif">Priority ranks</text>
+<text x="738" y="244" text-anchor="middle" font-size="9" fill="#6d28d9" font-family="'Segoe UI',sans-serif">Transform rules</text>
+<text x="738" y="260" text-anchor="middle" font-size="9" fill="#6d28d9" font-family="'Segoe UI',sans-serif">Quality gates</text>
+<text x="738" y="278" text-anchor="middle" font-size="7" fill="rgba(109,40,217,.4)" font-family="'Segoe UI',sans-serif">Approved · Signed · Oracle</text>
+
+<!-- Arrow 5 -->
+<line x1="808" y1="220" x2="852" y2="220" stroke="#d97706" stroke-width="2.5" marker-end="url(#a5)"/>
+
+<!-- Transform 3: Code gen -->
+<rect x="852" y="186" width="100" height="68" rx="6" fill="#1a1208" stroke="#d97706" stroke-width="1"/>
+<text x="902" y="208" text-anchor="middle" font-size="9" fill="#f2ede4" font-weight="700" font-family="'Segoe UI',sans-serif">Config+Code</text>
+<text x="902" y="222" text-anchor="middle" font-size="8" fill="rgba(242,237,228,.6)" font-family="'Segoe UI',sans-serif">RAG+Claude</text>
+<text x="902" y="237" text-anchor="middle" font-size="7" fill="rgba(242,237,228,.4)" font-family="'Segoe UI',sans-serif">Evaluator+Review</text>
+
+<!-- Arrow 6 - wraps to row 2 -->
+<path d="M952 220 Q980 220 980 320 Q980 380 952 380" fill="none" stroke="#059669" stroke-width="2.5" marker-end="url(#a5)"/>
+
+<!-- Row 2: Generated artifacts -->
+
+<!-- Artifact 4: Connector Artifact -->
+<rect x="668" y="340" width="280" height="80" rx="8" fill="#d1fae5" stroke="#059669" stroke-width="1.5"/>
+<text x="808" y="368" text-anchor="middle" font-size="11" fill="#064e3b" font-weight="800" font-family="'Segoe UI',sans-serif">Connector Artifact</text>
+<text x="700" y="390" font-size="9" fill="#059669" font-family="'Segoe UI',sans-serif">connector_config.json</text>
+<text x="700" y="405" font-size="9" fill="#059669" font-family="'Segoe UI',sans-serif">AcmeTransformer.java</text>
+<text x="840" y="390" font-size="9" fill="#059669" font-family="'Segoe UI',sans-serif">PaginationHandler.java</text>
+<text x="840" y="405" font-size="9" fill="#059669" font-family="'Segoe UI',sans-serif">Layer1_CONNECTOR_RULES</text>
+
+<!-- Arrow deploy -->
+<line x1="668" y1="380" x2="524" y2="380" stroke="#059669" stroke-width="2.5" marker-end="url(#a5)"/>
+
+<!-- Transform 4: Deploy+Test -->
+<rect x="424" y="356" width="100" height="48" rx="6" fill="#1a1208" stroke="#059669" stroke-width="1"/>
+<text x="474" y="377" text-anchor="middle" font-size="9" fill="#f2ede4" font-weight="700" font-family="'Segoe UI',sans-serif">Deploy+Test</text>
+<text x="474" y="392" text-anchor="middle" font-size="7" fill="rgba(242,237,228,.5)" font-family="'Segoe UI',sans-serif">Bitbucket CI/CD</text>
+
+<!-- Arrow to platform -->
+<line x1="424" y1="380" x2="340" y2="380" stroke="#059669" stroke-width="2.5" marker-end="url(#a5)"/>
+
+<!-- Artifact 5: Live Party JSON -->
+<rect x="170" y="340" width="166" height="80" rx="8" fill="#d1fae5" stroke="#059669" stroke-width="1.5"/>
+<text x="253" y="368" text-anchor="middle" font-size="10" fill="#064e3b" font-weight="800" font-family="'Segoe UI',sans-serif">Live Party JSON</text>
+<text x="253" y="386" text-anchor="middle" font-size="9" fill="#059669" font-family="'Segoe UI',sans-serif">Oracle 19c · Spring Boot</text>
+<text x="253" y="400" text-anchor="middle" font-size="8" fill="rgba(5,150,105,.5)" font-family="'Segoe UI',sans-serif">GET /party/{epiId}</text>
+
+<!-- Arrow to monitor -->
+<line x1="170" y1="380" x2="100" y2="380" stroke="#dc2626" stroke-width="2.5" marker-end="url(#a5)"/>
+
+<!-- Monitor box -->
+<rect x="10" y="350" width="86" height="60" rx="6" fill="#1a1208" stroke="#dc2626" stroke-width="1"/>
+<text x="53" y="374" text-anchor="middle" font-size="8" fill="#f2ede4" font-weight="700" font-family="'Segoe UI',sans-serif">Monitor</text>
+<text x="53" y="388" text-anchor="middle" font-size="7" fill="rgba(242,237,228,.5)" font-family="'Segoe UI',sans-serif">3-layer detect</text>
+
+<!-- Feedback arrow -->
+<path d="M53 350 Q53 300 80 280 Q120 250 170 250" fill="none" stroke="#dc2626" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#a5)"/>
+<text x="90" y="295" font-size="8" fill="rgba(220,38,38,.7)" font-family="'Segoe UI',sans-serif">Drift detected</text>
+<text x="90" y="307" font-size="8" fill="rgba(220,38,38,.7)" font-family="'Segoe UI',sans-serif">↻ re-ingest</text>
+
+<!-- Storage layer at bottom -->
+<rect x="10" y="480" width="1040" height="220" rx="10" fill="rgba(26,18,8,.06)" stroke="#c8b89a" stroke-width="1"/>
+<text x="30" y="502" font-size="10" fill="#6b5830" font-weight="700" font-family="'Segoe UI',sans-serif" letter-spacing="1">DATA STORES + SHARED SERVICES</text>
+
+<rect x="22" y="512" width="140" height="72" rx="6" fill="#fff8f0" stroke="#c45000" stroke-width="1"/>
+<text x="92" y="533" text-anchor="middle" font-size="9" fill="#7a2e00" font-weight="700" font-family="'Segoe UI',sans-serif">Oracle 19c</text>
+<text x="92" y="548" text-anchor="middle" font-size="8" fill="#c45000" font-family="'Segoe UI',sans-serif">CONNECTOR_CONFIGS</text>
+<text x="92" y="562" text-anchor="middle" font-size="8" fill="#c45000" font-family="'Segoe UI',sans-serif">PARTY_DATA (EPI)</text>
+<text x="92" y="576" text-anchor="middle" font-size="7" fill="rgba(196,80,0,.5)" font-family="'Segoe UI',sans-serif">MAPPING_CONTRACTS</text>
+
+<rect x="172" y="512" width="140" height="72" rx="6" fill="#f0f9ff" stroke="#1565c0" stroke-width="1"/>
+<text x="242" y="533" text-anchor="middle" font-size="9" fill="#1e3a8a" font-weight="700" font-family="'Segoe UI',sans-serif">Amazon S3</text>
+<text x="242" y="548" text-anchor="middle" font-size="8" fill="#1d4ed8" font-family="'Segoe UI',sans-serif">Agent memory (LT)</text>
+<text x="242" y="562" text-anchor="middle" font-size="8" fill="#1d4ed8" font-family="'Segoe UI',sans-serif">Schema baselines</text>
+<text x="242" y="576" text-anchor="middle" font-size="7" fill="rgba(29,78,216,.5)" font-family="'Segoe UI',sans-serif">Drift forensics</text>
+
+<rect x="322" y="512" width="140" height="72" rx="6" fill="#fefce8" stroke="#b45309" stroke-width="1"/>
+<text x="392" y="533" text-anchor="middle" font-size="9" fill="#713f12" font-weight="700" font-family="'Segoe UI',sans-serif">OpenSearch</text>
+<text x="392" y="548" text-anchor="middle" font-size="8" fill="#b45309" font-family="'Segoe UI',sans-serif">RAG vectors</text>
+<text x="392" y="562" text-anchor="middle" font-size="8" fill="#b45309" font-family="'Segoe UI',sans-serif">Codebase patterns</text>
+<text x="392" y="576" text-anchor="middle" font-size="7" fill="rgba(180,83,9,.5)" font-family="'Segoe UI',sans-serif">Run metrics (L2)</text>
+
+<rect x="472" y="512" width="140" height="72" rx="6" fill="#faf5ff" stroke="#7c3aed" stroke-width="1"/>
+<text x="542" y="533" text-anchor="middle" font-size="9" fill="#4c1d95" font-weight="700" font-family="'Segoe UI',sans-serif">AWS Bedrock</text>
+<text x="542" y="548" text-anchor="middle" font-size="8" fill="#7c3aed" font-family="'Segoe UI',sans-serif">Claude Sonnet</text>
+<text x="542" y="562" text-anchor="middle" font-size="8" fill="#7c3aed" font-family="'Segoe UI',sans-serif">Code gen + drift</text>
+<text x="542" y="576" text-anchor="middle" font-size="7" fill="rgba(124,58,237,.5)" font-family="'Segoe UI',sans-serif">~750 token ctx</text>
+
+<rect x="622" y="512" width="140" height="72" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1"/>
+<text x="692" y="533" text-anchor="middle" font-size="9" fill="#1e3a8a" font-weight="700" font-family="'Segoe UI',sans-serif">Azure OpenAI</text>
+<text x="692" y="548" text-anchor="middle" font-size="8" fill="#2563eb" font-family="'Segoe UI',sans-serif">GPT-4 Turbo</text>
+<text x="692" y="562" text-anchor="middle" font-size="8" fill="#2563eb" font-family="'Segoe UI',sans-serif">Config + mapping</text>
+<text x="692" y="576" text-anchor="middle" font-size="7" fill="rgba(37,99,235,.5)" font-family="'Segoe UI',sans-serif">East US 2</text>
+
+<rect x="772" y="512" width="140" height="72" rx="6" fill="#f0fdf4" stroke="#059669" stroke-width="1"/>
+<text x="842" y="533" text-anchor="middle" font-size="9" fill="#064e3b" font-weight="700" font-family="'Segoe UI',sans-serif">Vault + RBAC</text>
+<text x="842" y="548" text-anchor="middle" font-size="8" fill="#059669" font-family="'Segoe UI',sans-serif">API credentials</text>
+<text x="842" y="562" text-anchor="middle" font-size="8" fill="#059669" font-family="'Segoe UI',sans-serif">A2A tokens</text>
+<text x="842" y="576" text-anchor="middle" font-size="7" fill="rgba(5,150,105,.5)" font-family="'Segoe UI',sans-serif">Rotation policy</text>
+
+<rect x="922" y="512" width="118" height="72" rx="6" fill="#f8f9fa" stroke="#64748b" stroke-width="1"/>
+<text x="981" y="533" text-anchor="middle" font-size="9" fill="#334155" font-weight="700" font-family="'Segoe UI',sans-serif">Grafana+OTel</text>
+<text x="981" y="548" text-anchor="middle" font-size="8" fill="#64748b" font-family="'Segoe UI',sans-serif">Dashboards</text>
+<text x="981" y="562" text-anchor="middle" font-size="8" fill="#64748b" font-family="'Segoe UI',sans-serif">Agent traces</text>
+<text x="981" y="576" text-anchor="middle" font-size="7" fill="rgba(100,116,139,.5)" font-family="'Segoe UI',sans-serif">Prometheus</text>
+
+<!-- Data artifact legend -->
+<text x="30" y="614" font-size="9" fill="#6b5830" font-weight="600" font-family="'Segoe UI',sans-serif">Data artifact types:</text>
+<rect x="30" y="622" width="12" height="12" rx="2" fill="#fde8d8" stroke="#c45000" stroke-width="0.8"/>
+<text x="48" y="633" font-size="8" fill="#6b5830" font-family="'Segoe UI',sans-serif">Raw / Input</text>
+<rect x="120" y="622" width="12" height="12" rx="2" fill="#dbeafe" stroke="#1565c0" stroke-width="0.8"/>
+<text x="138" y="633" font-size="8" fill="#6b5830" font-family="'Segoe UI',sans-serif">Staged / Enriched</text>
+<rect x="240" y="622" width="12" height="12" rx="2" fill="#f3e8ff" stroke="#7c3aed" stroke-width="0.8"/>
+<text x="258" y="633" font-size="8" fill="#6b5830" font-family="'Segoe UI',sans-serif">Approved Contract</text>
+<rect x="380" y="622" width="12" height="12" rx="2" fill="#d1fae5" stroke="#059669" stroke-width="0.8"/>
+<text x="398" y="633" font-size="8" fill="#6b5830" font-family="'Segoe UI',sans-serif">Generated / Live</text>
+<rect x="30" y="642" width="30" height="3" rx="1" fill="#dc2626"/>
+<text x="68" y="648" font-size="8" fill="#6b5830" font-family="'Segoe UI',sans-serif">Drift feedback loop</text>
+<rect x="140" y="622" width="0" height="0"/>
+<rect x="210" y="642" width="20" height="3" rx="1" fill="#1a1208"/>
+<text x="236" y="648" font-size="8" fill="#6b5830" font-family="'Segoe UI',sans-serif">Transform node (AI agent)</text>
+
+</svg>
+</div>
+</div>
+
+<script>
+function sw(i){
+  document.querySelectorAll('.slide').forEach((s,j)=>s.classList.toggle('on',j===i));
+  document.querySelectorAll('.nb').forEach((b,j)=>b.classList.toggle('on',j===i));
+}
+</script>
+</body>
+</html>
