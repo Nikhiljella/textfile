@@ -1,0 +1,61 @@
+# CDX Notes – UI Fields & Vendor Onboarding Config
+
+## Architecture Context
+
+**Break out On-prem → AWS**
+
+- AI → piem EBS + VDB
+- CDX → AWS → additional
+- On-prem →
+
+-----
+
+## UI Fields Configuration (Numbered)
+
+|#|Field                      |Notes                         |
+|-|---------------------------|------------------------------|
+|1|URL                        |→                             |
+|2|Delta URL                  |→                             |
+|3|Auth                       |*(flagged / under review)*    |
+|4|Interested Fields          |→                             |
+|5|Destination Fields on Parts|→ mapping to find parts (TBOA)|
+|6|Transformation             |→                             |
+|7|Preferences                |*(meta crossed out, replaced)*|
+
+-----
+
+## Flow: Source Mapping
+
+```
+           [Node]
+          /       \
+         /         \
+  we make a call    source mapping
+        |           unrock given
+        ↓                ↓
+  ⑦ Id → A:D       [destination]
+      |
+  [Verification]
+```
+
+### Steps:
+
+- **Id → A:D**: Identity resolved to Active Directory (or similar auth/identity store)
+- **Verification**: Post-ID-resolution verification step
+
+-----
+
+## Routing / Sequencing Notes (Top Section)
+
+- Sequence: ① → ② → ③ (with bonus steps ③④ → 3,4,1,2 → ①)
+- UI Fields feeds into the numbered config steps above (circled ④ on arrow)
+
+-----
+
+## Bottom Note
+
+`x → [DB / cylinder]` — likely indicates a data store dependency or fallback path
+
+-----
+
+*Transcribed from handwritten whiteboard notes — CDX platform design session*
